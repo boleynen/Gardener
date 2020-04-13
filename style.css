@@ -1,0 +1,67 @@
+/* 
+
+HEADINGS -----------------------------
+font-family: 'Montserrat', sans-serif;
+
+REGULAR TEXT -----------------------------
+font-family: 'Source Sans Pro', sans-serif; 
+
+*/
+
+
+
+/* LOGIN & REGISTRATIE ------------------------------------------------------*/
+
+*{
+    margin: 0;
+    box-sizing: border-box;
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    height: 90vh;
+}
+
+.input-form{
+    margin: 10px auto;
+    width: 90%;
+}
+
+.input-form label{
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 16px;
+    text-align: left;
+    color: #DC872D;
+}
+
+.input-form input{
+    display: inline-block;
+    border-radius: 5px;
+    border: 1px solid #B6B5BD;
+    padding: 10px 0px 10px 10px;
+    width: 100%;
+}
+
+#redirect-registratie, #redirect-login{
+    display: inline-block;
+    width: 90%;
+    text-align: right;
+    font-family: 'Source Sans Pro', sans-serif;
+    color: #585858;
+    text-decoration: none;
+    height: 10vh;
+}
+
+.submit-btn input{
+    background-color: #DC872D;
+    border: none;
+    color: white;
+    font-family: 'Montserrat', sans-serif;
+    margin-top: 10px;
+}
+
+/* HOMEPAGE ----------------------------------------------------------------*/
+/* PROFIELPAGINA -----------------------------------------------------------*/
