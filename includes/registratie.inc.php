@@ -39,7 +39,7 @@ if(isset($_POST['registratie-submit'])){
     // CHECK OF GEBRUIKERSNAAM AL BESTAAT
     }else{
 
-        $sql = "SELECT gebruikersnaam FROM users WHERE gebruikersnaam=?";
+        $sql = "SELECT gebruikersnaam FROM user WHERE gebruikersnaam=?";
         $stmt = mysqli_stmt_init($conn);
 
         if(!mysqli_stmt_prepare($stmt, $sql)){
@@ -61,7 +61,7 @@ if(isset($_POST['registratie-submit'])){
 
             }else{
 
-                $sql = "INSERT INTO users (gebruikersnaam, email, wachtwoord) VALUES (?, ?, ?)";
+                $sql = "INSERT INTO user (gebruikersnaam, email, wachtwoord) VALUES (?, ?, ?)";
                 $stmt = mysqli_stmt_init($conn);
 
                 if(!mysqli_stmt_prepare($stmt, $sql)){
