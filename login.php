@@ -24,7 +24,7 @@
         </div>
 
         <div class="input-form submit-btn">
-            <input type="submit" id="submit-btn" value="AANMELDEN">
+            <button type="submit" id="submit-btn">REGISTREREN</button>
         </div>
 
     </form>
