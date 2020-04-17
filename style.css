@@ -55,7 +55,7 @@ form{
     height: 10vh;
 }
 
-.submit-btn input{
+#submit-btn{
     background-color: #DC872D;
     border: none;
     color: white;

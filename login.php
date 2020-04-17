@@ -1,3 +1,9 @@
+<?php 
+
+include_once(__DIR__."/includes/header.inc.php");
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,7 +17,7 @@
 
 <body>
 
-    <form action="" method="post">
+    <form action="includes/login.inc.php" method="post">
 
         <div class="input-form">
             <label for="email">Email</label>
@@ -24,7 +30,7 @@
         </div>
 
         <div class="input-form submit-btn">
-            <button type="submit" id="submit-btn">REGISTREREN</button>
+            <input type="submit" id="submit-btn" name="login-submit" value="LOGIN">
         </div>
 
     </form>

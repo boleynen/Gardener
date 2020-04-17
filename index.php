@@ -1,3 +1,10 @@
+<?php 
+
+include_once(__DIR__."/includes/header.inc.php");
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,6 +14,7 @@
     <title>Homepagina</title>
 </head>
 <body>
-    
+
+    <p>hello, <?php echo $_SESSION['usergebruikersnaam']; ?>!</p>
 </body>
 </html>

@@ -75,7 +75,7 @@ if(isset($_POST['registratie-submit'])){
 
                     mysqli_stmt_bind_param($stmt, "sss", $gebruikersnaam, $email, $hashedPwd);
                     mysqli_stmt_execute($stmt);
-                    header("Location: ../registratie.php?signup=succes");
+                    header("Location: ../profielVervolledigen.php?signup=succes");
                     exit();
 
                 }
