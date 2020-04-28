@@ -5,6 +5,7 @@ include_once(__DIR__."/includes/header.inc.php");
 
 ?>
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,6 +15,8 @@ include_once(__DIR__."/includes/header.inc.php");
     <title>Registratie</title>
 </head>
 <body>
+
+    <img src="images/logo-svg.svg" alt="logo" id="logo" class="smaller-img">
 
     <form action="includes/registratie.inc.php" method="post">
 
@@ -42,6 +45,8 @@ include_once(__DIR__."/includes/header.inc.php");
         </div>
 
     </form>
+
+
 
     <a href="login.php" id="redirect-login">Heb je al een account? Log hier in.</a>
 

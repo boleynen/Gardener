@@ -9,7 +9,6 @@ if(isset($_POST['registratie-submit'])){
     $wachtwoord             = $_POST['wachtwoord'];
     $wachtwoordBevestigen   = $_POST['wachtwoord-bevestigen'];
 
-
     // ERROR HANDLERS
 
     // CHECK OF VELDEN INGEVULD ZIJN
@@ -71,12 +70,18 @@ if(isset($_POST['registratie-submit'])){
 
                 }else{
 
+                    session_start();
+
                     $hashedPwd = password_hash($wachtwoord, PASSWORD_DEFAULT);
 
                     mysqli_stmt_bind_param($stmt, "sss", $gebruikersnaam, $email, $hashedPwd);
                     mysqli_stmt_execute($stmt);
-                    header("Location: ../profielVervolledigen.php?signup=succes");
-                    exit();
+
+                    $_SESSION['userid'] = $row['id'];
+                    $_SESSION['usergebruikersnaam'] = $_POST['gebruikersnaam'];
+                    $_SESSION['useremail'] = $_POST['email'];
+
+                    header("Location: ../redirectLogin.php?signup=succes");
 
                 }
 
@@ -86,10 +91,8 @@ if(isset($_POST['registratie-submit'])){
 
     }
 
-
-
-    mysqli_stmt_close($stmt);
-    mysqli_close($conn);
+    // mysqli_stmt_close($stmt);
+    // mysqli_close($conn);
 
 }
 else{

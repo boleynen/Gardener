@@ -1,5 +1,9 @@
 <?php 
 
+function alert($msg) {
+    echo "<script type='text/javascript'>alert('$msg');</script>";
+}
+
 if(isset($_POST['login-submit'])){
 
     require 'dbh.inc.php';
@@ -43,8 +47,18 @@ if(isset($_POST['login-submit'])){
                     $_SESSION['userid'] = $row['id'];
                     $_SESSION['usergebruikersnaam'] = $row['gebruikersnaam'];
                     $_SESSION['useremail'] = $row['email'];
+                    $_SESSION['uservoornaam'] = $row['voornaam'];
+                    $_SESSION['userachternaam'] = $row['achternaam'];
 
-                    header("Location: ../index.php?login=succes");
+                    if(empty($_SESSION['uservoornaam'])){
+
+                        header("Location: ../profielVervolledigen.php");
+
+                    }else if(!empty($_SESSION['uservoornaam'])){
+
+                        header("Location: ../index.php?login=succes");
+
+                    }
                     exit();
 
                 }else{
@@ -61,9 +75,7 @@ if(isset($_POST['login-submit'])){
                 exit();
 
             }
-
         }
-
     }
 
 }else{

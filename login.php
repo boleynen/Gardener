@@ -17,6 +17,8 @@ include_once(__DIR__."/includes/header.inc.php");
 
 <body>
 
+    <img src="images/logo-svg.svg" alt="logo" id="logo">
+
     <form action="includes/login.inc.php" method="post">
 
         <div class="input-form">
@@ -26,7 +28,7 @@ include_once(__DIR__."/includes/header.inc.php");
 
         <div class="input-form">
             <label for="wachtwoord">Wachtwoord</label>
-            <input type="text" id="wachtwoord" name="wachtwoord">
+            <input type="password" id="wachtwoord" name="wachtwoord">
         </div>
 
         <div class="input-form submit-btn">
