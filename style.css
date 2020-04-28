@@ -275,7 +275,87 @@ h1 {
 #map {
     width: 100vw;
     height: 100vh;
+    z-index: -1000;
+    position: absolute;
 }
+
+#index-zoek{
+    display: flex;
+    flex-direction: row;
+    height: 60px;
+    width: 100%;
+    padding: 10px;
+    justify-content: flex-end;
+}
+#index-zoek #submit-zoek{
+    width: 60px;
+    height: 60px;
+    border-radius: 100%;
+    border: none;
+    background-image: url(images/icon-search.png);
+    background-repeat: no-repeat;
+    background-size: 30px 30px;
+    background-position: center;
+    background-color: #DC872D;
+    cursor: pointer;
+}
+
+#index-zoek #zoek-input{
+    border: none;
+    border-radius: 60px;
+    height: 60px;
+    background-color: #DC872D;
+    width: 57%;
+    /* position: absolute; */
+    z-index: 5;
+    padding-left: 15px;
+    color: white;
+    font-family: 'Source Sans Pro', sans-serif;
+    margin-right: 10px;
+}
+
+#zoek-overlay-btn{
+    border: none;
+    border-radius: 60px;
+    height: 60px;
+    background-color: #DC872D;
+    width: 60px;
+    position: absolute;
+    z-index: 6;
+    cursor: pointer;
+    background-image: url(images/icon-search.png);
+    background-repeat: no-repeat;
+    background-size: 30px 30px;
+    background-position: center;
+    background-color: #DC872D;
+}
+
+#exit-zoek-btn{
+    width: 60px;
+    height: 60px;
+    z-index: 200;
+    border-radius: 100%;
+    border: none;
+    background-color: white;
+
+}
+
+.slide-in-zoek {
+    animation: slide-in-zoek 0.7s cubic-bezier(0.165, 0.840, 0.440, 1.000) both;
+  }
+  
+  @keyframes slide-in-zoek {
+    0% {
+      width: 60px;
+    }
+  
+    100% {
+      width: 57%;
+    }
+}
+
+
+
 
 /* MENU ------------------------------------------------------------------- */
 
@@ -286,33 +366,138 @@ h1 {
 }
 
 header{
-    width: 100%;
-    height: 100vh;
+    width: 58px;
+    z-index: 100;
+    position: absolute;
 }
 
 #user img {
     width: 60px;
     height: 60px;
     border-radius: 100px;
+    margin-right: 20px;
 }
 
 #user{
     display: flex;
-    justify-content: center;
+    margin-top: 0px;
+    align-items: center;
+    justify-content: flex-start;
+    padding-left: 20px;
 }
 
 #user p{
     font-family: 'Montserrat', sans-serif; 
+    font-size: 20px;
+    color: #DC872D;
+    font-weight: bold;
 }
 
 #menu-container{
     display: flex;
     flex-direction: column;
+    justify-content: space-around;
+    position: absolute;
+    width: 280px;
+    left: -280px;
+    height: 100vh;
+    background-color: white;
+    z-index: 1100;
 }
+
+.show{
+    position: relative;
+    width: 100%;
+    right: 0vw;
+}
+
+.slide-in {
+    animation: slide-in 0.7s cubic-bezier(0.165, 0.840, 0.440, 1.000) both;
+  }
+  
+  @keyframes slide-in {
+    0% {
+      left: -280px;
+    }
+  
+    100% {
+      left: 0px;
+    }
+}
+.slide-out {
+    animation: slide-out 0.7s cubic-bezier(0.165, 0.840, 0.440, 1.000) both;
+  }
+  
+  @keyframes slide-out {
+    0% {
+        right: 0vw;
+    }
+  
+    100% {
+        right: -280px;
+    }
+}
+
+.slide-in-btn {
+    animation: slide-in-btn 0.7s cubic-bezier(0.165, 0.840, 0.440, 1.000) both;
+  }
+  
+  @keyframes slide-in-btn {
+    0% {
+      transform: translateX(0vw);
+    }
+  
+    100% {
+      transform: translateX(280px);
+    }
+}
+.slide-out-btn {
+    animation: slide-out-btn 0.7s cubic-bezier(0.165, 0.840, 0.440, 1.000) both;
+  }
+  
+  @keyframes slide-out-btn {
+    0% {
+      transform: translateX(280px);
+    }
+  
+    100% {
+      transform: translateX(0vw);
+    }
+}
+
 
 #menu-items{
     display: flex;
     flex-direction: column;
+    justify-content: space-evenly;
+    height: 50vh;
+    align-items: flex-start;
+}
+
+#menu-items a{
+    padding-left: 20px;
+}
+
+#menu-container a{
+    text-decoration: none;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+    color: #5e5e5e;
+}
+
+#menu-items{
+    border-top: 1.5px solid #bbb;
+}
+
+#logout{
+    margin-top: 20vh;
+    justify-content: flex-start;
+    padding-left: 20px;
+}
+
+#logout a{
+    color: rgb(250, 51, 51);
 }
 
 
@@ -321,7 +506,6 @@ header{
 
 .hamburger {
     padding: 15px 15px;
-    display: inline-block;
     cursor: pointer;
     transition-property: opacity, filter;
     transition-duration: 0.15s;
@@ -329,28 +513,28 @@ header{
     font: inherit;
     color: inherit;
     text-transform: none;
-    background-color: transparent;
     border: 0;
     margin: 0;
     overflow: visible;
-}
-
-.hamburger:hover {
-    opacity: 0.7;
-}
-
-.hamburger.is-active:hover {
-    opacity: 0.7;
+    background-color: white;
+    border-radius: 100%;
+    margin: 10px 0px 0px 10px;
+    display: flex;
+    width: 60px;
+    height: 60px;
+    align-items: center;
+    z-index: 3;
+    position: absolute;
 }
 
 .hamburger.is-active .hamburger-inner,
 .hamburger.is-active .hamburger-inner::before,
 .hamburger.is-active .hamburger-inner::after {
-    background-color: #000;
+    background-color: #5e5e5e;
 }
 
 .hamburger-box {
-    width: 40px;
+    width: 30px;
     height: 24px;
     display: inline-block;
     position: relative;
@@ -365,9 +549,9 @@ header{
 .hamburger-inner,
 .hamburger-inner::before,
 .hamburger-inner::after {
-    width: 40px;
+    width: 30px;
     height: 4px;
-    background-color: #000;
+    background-color: #5e5e5e;
     border-radius: 4px;
     position: absolute;
     transition-property: transform;
@@ -400,12 +584,12 @@ header{
     transition: opacity 0.125s 0.275s ease;
 }
 
-.hamburger--elastic .hamburger-inner::after {
+.hamburger--elastic .hamburger-inner::after{
     top: 20px;
     transition: transform 0.275s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
-.hamburger--elastic.is-active .hamburger-inner {
+.hamburger--elastic.is-active .hamburger-inner{
     transform: translate3d(0, 10px, 0) rotate(135deg);
     transition-delay: 0.075s;
 }
@@ -415,10 +599,11 @@ header{
     opacity: 0;
 }
 
-.hamburger--elastic.is-active .hamburger-inner::after {
+.hamburger--elastic.is-active .hamburger-inner::after{
     transform: translate3d(0, -20px, 0) rotate(-270deg);
     transition-delay: 0.075s;
 }
 
+.
 
 /* PROFIELPAGINA -----------------------------------------------------------*/

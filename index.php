@@ -22,7 +22,14 @@ include_once(__DIR__."/includes/header.inc.php");
 
     <?php include_once(__DIR__."/nav.php");?>
 
-    <div id='map'></div>
+    <div id="map"></div>
+
+    <form action="" method="post" id="index-zoek">
+        <input type="text" id="zoek-input">
+        <input type="submit" id="submit-zoek" value="">
+    </form>
+
+
     <script>
         mapboxgl.accessToken = 'pk.eyJ1IjoiYm9sZXluZW4iLCJhIjoiY2s5aWtpajFrMDN2YTNscWEzazZzZXY4dSJ9.Dbze0Z7l4JnwGO4HTPhidg';
         var map = new mapboxgl.Map({
@@ -30,5 +37,7 @@ include_once(__DIR__."/includes/header.inc.php");
             style: 'mapbox://styles/mapbox/streets-v11'
         });
     </script>
+
+<script src="js/index.js"></script>
 </body>
 </html>
