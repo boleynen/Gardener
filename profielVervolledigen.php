@@ -34,7 +34,7 @@ include_once(__DIR__."/includes/header.inc.php");
 
         <div class="input-form input-avatar">
             <label for="avatar">Kies een profielfoto</label>
-            <input type="file" id="avatar-input" name="avatar" accept="image/*" onchange="loadFile(event)">
+            <input type="file" id="avatar-input" name="avatar" accept="image/*" onchange="loadFile(event)" style="display:block">
             <img id="output" width="150" />
         </div>
 

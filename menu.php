@@ -1,5 +1,7 @@
 <?php 
-include_once(__DIR__."/includes/nav.inc.php");
+include_once(__DIR__."/includes/menu.inc.php");
+
+
 ?>
 
 <!DOCTYPE html>
@@ -23,7 +25,7 @@ include_once(__DIR__."/includes/nav.inc.php");
         <div id="menu-container" >
             <div id="user">
                 <img src="avatars/<?php echo $imgPath?>" alt="avatar">
-                <p><?php echo $_SESSION['uservoornaam']." ".$_SESSION['userachternaam']; ?></p>
+                <p><?php echo $_SESSION['user']; ?></p>
             </div>
             <nav id="menu-items">
                 <a href="index.php">Producten ontdekken</a>

@@ -1,6 +1,54 @@
 <?php 
 
-include_once(__DIR__."/includes/header.inc.php");
+
+include_once(__DIR__ . "/classes/c.user.php");
+
+$passwordMatch = true;
+if(!empty($_POST['login-submit'])){
+
+
+    try {
+
+        $verification = new User();
+        $verification->setEmail($_POST['email']);
+        $verification->setPassword($_POST['wachtwoord']);
+
+        $passwordVerification = $verification->fetchPassword();
+
+        if(password_verify($_POST['wachtwoord'], $passwordVerification)){
+            
+            $passwordMatch = true;
+
+        }else{
+
+            throw new Exception("Paswoord of emailadres is fout");
+            $error = "Paswoord of emailadres is fout";
+            $passwordMatch = false;
+            
+        }
+
+        if($passwordMatch == true){
+
+            session_start();
+
+            $_SESSION['email'] = $_POST['email'];
+
+            $name = $verification->fetchName();
+
+            $name = implode(" ", $name);
+
+            $_SESSION['user'] = $name;
+            header("Location: index.php");
+
+        }
+    
+    } catch (\Throwable $th) {
+
+        $error = $th->getMessage();
+
+    }
+
+}
 
 ?>
 
@@ -19,7 +67,9 @@ include_once(__DIR__."/includes/header.inc.php");
 
     <img src="images/logo-svg.svg" alt="logo" id="logo">
 
-    <form action="includes/login.inc.php" method="post">
+    <form action="" method="post">
+
+    <h1 id="h1-login">Login</h1>
 
         <div class="input-form">
             <label for="email">Email</label>
@@ -34,6 +84,11 @@ include_once(__DIR__."/includes/header.inc.php");
         <div class="input-form submit-btn">
             <input type="submit" id="submit-btn" name="login-submit" value="LOGIN">
         </div>
+
+        <?php if(isset($error)):?>
+            <div class="error" style="color: white;">
+            <?php echo $error;?></div>
+        <?php endif;?>
 
     </form>
 

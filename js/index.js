@@ -1,15 +1,22 @@
-var zoekBtnOverlay = document.querySelector("#zoek-overlay-btn");
-var zoekInput = document.querySelector("#zoek-input");
-var zoekBtn = document.querySelector("#submit-zoek");
+window.onload=function(){
 
-// zoekInput.style.display = "none";
+var voegToeBtn = document.querySelector("#voeg-toe-btn");
+var voegToeShow = document.querySelector("#voeg-toe-show");
 
-zoekBtnOverlay.addEventListener("click", function(){
-    if(zoekInput.style.display == "none"){
-        zoekInput.style.display = "inline-block";
-        zoekInput.setAttribute("class", "slide-in-zoek");
-    }else{
-        zoekInput.style.display = "inline-block";
-        zoekInput.removeAttribute("class", "slide-in-zoek");
+a = 0;
+
+voegToeBtn.addEventListener("click", function () {
+    if (a == 0) {
+        voegToeBtn.setAttribute("class", "rotate");
+        voegToeShow.style.display = "block";
+        a++;
+        console.log(a);
+    } else if (a == 1) {
+        voegToeBtn.removeAttribute("class", "rotate");
+        voegToeShow.style.display = "none";
+        a--;
+        console.log(a);
     }
+
 });
+}

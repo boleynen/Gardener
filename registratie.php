@@ -1,8 +1,52 @@
-
 <?php 
 
-include_once(__DIR__."/includes/header.inc.php");
 
+include_once(__DIR__ . "/classes/c.registratie.php");
+
+$emailVerification = true;
+$passwordVerification = true;
+
+if(!empty($_POST['registratie-submit'])){
+    try {
+        $user = new Signup();
+        $user->setUsername($_POST['gebruikersnaam']);
+        $user->setEmail($_POST['email']);
+        $user->setPassword($_POST['wachtwoord']);
+        $user->setPasswordConfirmation($_POST['wachtwoord-bevestigen']);
+
+        $allEmails = Signup::getEmails();
+
+        foreach($emails as $email){
+            if($_POST['email'] == $email['email']){
+                $emailVerification = false;
+            }
+        }
+
+        if($emailVerification == false){
+            throw new Exception("Dit emailadres is al in gebruik");
+        }
+
+        if($_POST["wachtwoord"] != $_POST["wachtwoord-bevestigen"]){
+            throw new Exception("De paswoorden zijn niet hetzelfde");
+            $passwordVerification = false;
+        }
+
+        if($emailVerification == true && $passwordVerification == true){
+            $user->saveNewUser();
+
+            session_start();
+
+            $_SESSION['userid'] = $row['id'];
+            $_SESSION['usergebruikersnaam'] = $_POST['gebruikersnaam'];
+            $_SESSION['useremail'] = $_POST['email'];
+
+            header("Location: profielVervolledigen.php");
+        }
+
+    } catch (\Throwable $th) {
+        //throw $th;
+    }
+}
 ?>
 
 
@@ -18,7 +62,7 @@ include_once(__DIR__."/includes/header.inc.php");
 
     <img src="images/logo-svg.svg" alt="logo" id="logo" class="smaller-img">
 
-    <form action="includes/registratie.inc.php" method="post">
+    <form action="" method="post">
 
         <div class="input-form">
             <label for="gebruikersnaam">Gebruikersnaam</label>
