@@ -1,5 +1,81 @@
 <?php 
 include_once(__DIR__."/includes/header.inc.php");
+include_once(__DIR__."/classes/c.profielVervolledigen.php");
+
+if(isset($_POST['vervolledig-submit'])){
+
+    $voornaam       = $_POST['voornaam'];
+    $achternaam     = $_POST['achternaam'];
+    $stad           = $_POST['stad'];
+    $straat         = $_POST['straat'];
+
+    $userid         = $_SESSION['userid']; 
+    $useremail      = $_SESSION['useremail'];
+
+    $file           = $_FILES['avatar'];
+    $fileName       = $_FILES['avatar']['name'];
+    $fileTmpName    = $_FILES['avatar']['tmp_name'];
+    $fileSize       = $_FILES['avatar']['size'];
+    
+    $fileError      = $_FILES['avatar']['error'];
+    $fileExt        = explode(".", $fileName);
+    $fileActualExt  = strtolower(end($fileExt));
+    $fileNameNew    = uniqid('', true).".".$fileActualExt;
+    
+    $allowed        = array('jpg', 'jpeg', 'png');
+
+    if($fileError == 4  || empty($voornaam) || empty($achternaam) || empty($stad) || empty($straat)){
+
+        $error = "Je moet alle velden invullen om door te gaan.";
+        exit();
+
+    }else{
+        $vervolledig = new Complete();
+
+        $vervolledig->setFirstname($voornaam);
+        $vervolledig->setLastname($achternaam);
+        $vervolledig->setCity($_POST['stad']);
+        $vervolledig->setStreet($_POST['straat']);
+        $vervolledig->setAvatar($fileNameNew);
+        $vervolledig->setEmail($useremail);
+
+        $vervolledig->saveProfile();
+    }
+
+    if(in_array($fileActualExt, $allowed)){
+    
+        if($fileError === 0){
+            if($fileSize < 2000000){
+
+                $fileDestination = 'C:/xampp/htdocs/lab2/Gardener/avatars/'.$fileNameNew;
+
+                move_uploaded_file($fileTmpName, $fileDestination);
+
+                header("Location: ../gardener/login.php");
+
+            }else{
+
+                echo "Je bestandstype is te groot. (max. 2MB)";
+
+            }
+
+        }else{
+
+            echo "Error: Uploaden mislukt.";
+            echo $fileError;
+
+        }
+
+    }else{
+
+        echo "Dit bestandstype is niet juist (enkel jpg, jpeg, png)";
+
+    }
+    
+
+
+
+}
 ?>
 
 
@@ -18,9 +94,14 @@ include_once(__DIR__."/includes/header.inc.php");
 </head>
 
 <body>
-    <form id="form-vervolledig" action="includes/profielVervolledigen.inc.php" method="post" enctype="multipart/form-data">
+    <form id="form-vervolledig" action="" method="post" enctype="multipart/form-data">
 
         <h1>Bijna klaar!</h1>
+
+        <?php if(isset($error)):?>
+            <div class="error" style="color: white;">
+            <?php echo $error;?></div>
+        <?php endif;?>
 
         <div class="input-form">
             <label for="voornaam">Voornaam</label>
@@ -28,8 +109,18 @@ include_once(__DIR__."/includes/header.inc.php");
         </div>
 
         <div class="input-form">
-            <label for="avatar">Achternaam</label>
+            <label for="Achternaam">Achternaam</label>
             <input type="text" id="achternaam" name="achternaam">
+        </div>
+
+        <div class="input-form">
+            <label for="stad">Stad</label>
+            <input type="text" id="stad" name="stad">
+        </div>
+
+        <div class="input-form">
+            <label for="straat">Straat</label>
+            <input type="text" id="straat" name="straat">
         </div>
 
         <div class="input-form input-avatar">

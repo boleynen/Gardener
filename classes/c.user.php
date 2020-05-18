@@ -218,13 +218,32 @@ class User{
         return $id;
     }
 
+    public function fetchFarmerLocations(){
+        $conn = Database::getConnection();
+
+        $statement = $conn->prepare("SELECT stad, straat FROM user");
+
+        $data = $statement->execute();
+
+        $data = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+        return $data;
+    }
+
+    public function getLatLng(){
+        $conn = Database::getConnection();
+
+        $statement = $conn->prepare("SELECT lat, lng FROM user");
+
+        $data = $statement->execute();
+
+        $data = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+        return $data;
+    }
+
 }
 
-$findId = new User();
-$findId->setEmail($_SESSION['email']);
-$myId = $findId->fetchMyId();
-$myId = implode(" ", $myId);
-$myId = intval($myId);
 
 
 

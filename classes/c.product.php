@@ -7,6 +7,7 @@ class Product{
     private $name;
     private $type;
     private $price;
+    private $amount;
     private $free;
     private $trade;
     private $order;
@@ -93,6 +94,26 @@ class Product{
     public function setPrice($price)
     {
         $this->price = $price;
+
+        return $this;
+    }
+
+        /**
+     * Get the value of amount
+     */ 
+    public function getAmount()
+    {
+        return $this->amount;
+    }
+
+    /**
+     * Set the value of amount
+     *
+     * @return  self
+     */ 
+    public function setAmount($amount)
+    {
+        $this->amount = $amount;
 
         return $this;
     }
@@ -221,14 +242,15 @@ class Product{
         $conn = Database::getConnection();
 
         $statement = $conn->prepare("INSERT INTO product 
-        (idUser, name, type, price, free, trade, order, unit, description, pictures)
+        (idUser, naam, type, prijs, gratis, ruilen, bestelling, hoeveelheid, eenheid, beschrijving, fotos)
         VALUES
-        (:idUser, :name, :type, :price, :free, :trade, :order, :unit, :description, :pictures)");
+        (:idUser, :name, :type, :price, :free, :trade, :order, :amount, :unit, :description, :pictures)");
 
         $idUser         = $this->getIdUser();
         $name           = $this->getName();
         $type           = $this->getType();
         $price          = $this->getPrice();
+        $amount         = $this->getAmount();
         $free           = $this->getFree();
         $trade          = $this->getTrade();
         $order          = $this->getOrder();
@@ -240,6 +262,7 @@ class Product{
         $statement->bindValue(":name", $name);
         $statement->bindValue(":type", $type);
         $statement->bindValue(":price", $price);
+        $statement->bindValue(":amount", $amount);
         $statement->bindValue(":free", $free);
         $statement->bindValue(":trade", $trade);
         $statement->bindValue(":order", $order);
@@ -255,7 +278,7 @@ class Product{
     public function fetchMyProducts(){
         $conn = Database::getConnection();
 
-        $statement = $conn->prepare("SELECT * FROM product WHERE idUser = :idUser");
+        $statement = $conn->prepare("SELECT naam, prijs, eenheid, fotos FROM product WHERE idUser = :idUser");
 
         $idUser = $this->getIdUser();
 
@@ -263,8 +286,10 @@ class Product{
 
         $products = $statement->execute();
 
-        $products = $statement->fetch(PDO::FETCH_ASSOC);
+        $products = $statement->fetchAll(PDO::FETCH_ASSOC);
 
         return $products;
     }
+
+
 }

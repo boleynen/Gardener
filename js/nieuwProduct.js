@@ -98,3 +98,11 @@ var loadFile4 = function(event) {
 	  output.style.objectFit = "cover";
     }
 };
+
+
+var gratisToggle = document.querySelector("#gratis-toggle");
+var prijsInput = document.querySelector(".input-currency");
+
+gratisToggle.onchange = function(){
+	prijsInput.disabled = this.checked;
+};

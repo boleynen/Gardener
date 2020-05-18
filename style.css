@@ -1,10 +1,38 @@
 
 :root{
     --main-orange: #FA9D36;
-    --main-text: #202020;
-    --sub-text: #585858;
+    --main-text: #585858;
+    --sub-text: #707070;
+    --accent: #F2F3EE;
     --h-font: 'Montserrat', sans-serif;
     --text-font: 'Source Sans Pro', sans-serif;
+}
+/* MAP --------------------------------------------------------------------- */
+
+.marker {
+    background-color:var(--main-orange);
+    width: 20px;
+    height: 20px;
+    border: 1px solid white;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+
+  .mapboxgl-popup {
+    max-width: 200px;
+  }
+  
+  .mapboxgl-popup-content {
+    text-align: center;
+    font-family: 'Open Sans', sans-serif;
+  }
+  
+
+.mapboxgl-ctrl-geocoder{
+    width: 30px!important;
+    /* position: absolute; */
+    margin-top: 30px;
+    
 }
 
 /* LOGIN & REGISTRATIE ------------------------------------------------------*/
@@ -302,6 +330,8 @@ h1 {
     width: 100%;
     padding: 20px;
     justify-content: flex-end;
+    display: none; 
+    /* ------------ssssssssssssssmjdfnhjbddhjbdhjbfhbfhd */
 }
 #index-zoek #submit-zoek{
     width: 60px;
@@ -951,6 +981,35 @@ input[type="file"]{
     flex-direction: row;
 }
 
+.input-bigger{
+    height: 100px;
+}
+
+textarea::-webkit-input-placeholder {
+    font-family: arial;
+    font-size: 14px;
+  }
+  
+  textarea:-moz-placeholder { /* Firefox 18- */
+    font-family: arial;
+    font-size: 14px;  
+  }
+  
+  textarea::-moz-placeholder {  /* Firefox 19+ */
+    font-family: arial;
+    font-size: 14px;  
+  }
+  
+  textarea:-ms-input-placeholder {
+    font-family: arial;
+    font-size: 14px;  
+  }
+  
+  textarea::placeholder {
+    font-family: arial;
+    font-size: 14px;  
+  }
+
 #img-preview1,
 #img-preview2,
 #img-preview3,
@@ -960,5 +1019,300 @@ input[type="file"]{
     overflow: hidden; */
 }
 
+.product-btns{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+}
+
+.input-wrapper #btn-annuleer,
+.input-wrapper #btn-voegtoe{
+    width: 47%;
+    height: 50px;
+    border: none;
+    border-radius: 5px;
+    font-family: var(--h-font);
+    font-size: 17px;
+    cursor: pointer;
+}
+
+.input-wrapper #btn-annuleer{
+    border: 1px solid #B6B5BD;
+    background-color: transparent;
+    color: #B6B5BD;
+}
+
+.input-wrapper #btn-voegtoe{
+    background-color: var(--main-orange);
+    color: white;
+}
+
+.succes-msg{
+    font-family: var(--text-font);
+    color: var(--main-orange);
+    font-weight: bold;
+    border: 1px solid var(--main-orange);
+    padding: 15px;
+    border-radius: 5px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
 
 /* PROFIELPAGINA -----------------------------------------------------------*/
+
+#mijn-profiel{
+    height: 100px;
+    display: flex;
+    align-items: center;
+    border-bottom: 2px solid var(--accent);
+    padding-bottom: 30px;
+}
+
+#mijn-profiel #pp-wrapper{
+    width: 90px;
+    height: 90px;
+    border-radius: 100px;
+    overflow: hidden;
+
+}
+
+#pp-wrapper img{
+    width: auto;
+    height: auto;
+    max-width: 100px;
+    max-height: 100px;
+}
+
+#gegevens{
+    padding: 0px 20px 0px 15px;
+    display: flex;
+    flex-direction: column;
+    height: 80px;
+    justify-content: space-evenly;
+}
+
+#gegevens #naam{
+    font-family: var(--h-font);
+    color: var(--main-text);
+    font-size: 20px;
+}
+
+#gegevens #functie{
+    font-family: var(--text-font);
+    color: var(--main-orange);
+    font-size: 1em;
+}
+
+#gegevens #email{
+    font-family: var(--text-font);
+    color: var(--sub-text);
+    font-size: 1em;
+}
+
+#mijn-profiel a{
+    text-decoration: none;
+} 
+
+#mijn-profiel i{
+    text-decoration: none;
+    color: var(--sub-text);
+    font-size: 20px
+}
+
+#update-profiel-btn{
+    width: 40px;
+    height: 40px;
+    border-radius: 100%;
+    background-color: var(--accent);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+                        /* producten */
+
+#mijn-producten{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+#producten-title, #workshops-title{
+    font-family: var(--h-font);
+    color: var(--main-text);
+    font-size: 1.4em;
+    margin: 40px 0px 20px 0px;
+}
+
+.product{
+    display: grid;
+    width: 49%;
+    height: 150px;
+    border: 2px solid var(--accent);
+    border-radius: 10px;
+    overflow: hidden;
+    grid-template-rows: 60% 20% 20%;
+    grid-template-columns: 50% 50%;
+    margin-top: 8px;
+}
+
+.product .img-wrapper{
+    overflow: hidden;
+    grid-row-start: 1;
+    grid-row-end: 1;
+    grid-column-start: 1;
+    grid-column-end: 3;
+}
+
+.product .img-wrapper img{
+    width: 100%;
+}
+
+.naam-product{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 0px 4px;
+
+    grid-row-start: 2;
+    grid-row-end: 2;
+
+    grid-column-start: 1;
+    grid-column-end: 3;
+
+    font-family: var(--h-font);
+    color: var(--main-text);
+    font-size: 1em;
+}
+
+.prijs-product{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 0px 4px;
+
+    grid-row-start: 3;
+    grid-row-end: 3;
+
+    font-family: var(--h-font);
+    color: var(--main-orange);
+    font-size: 1.4em;
+    font-weight: bold;
+}
+
+.eenheid-product{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 0px 4px;
+
+    grid-row-start: 3;
+    grid-row-end: 3;
+    grid-column-start: 2;
+    grid-column-end: 2;
+
+    font-family: var(--text-font);
+    color: var(--main-text);
+    font-size: 1em;
+}
+
+#add-product{
+    width: 49%;
+    height: 150px;
+    border: 2px solid var(--accent);
+    border-radius: 10px;
+    margin-top: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#add-product img{
+    width: 50px;
+    height: 50px;
+}
+
+                        /* workshops */
+
+#mijn-workshops{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.workshop{
+    display: grid;
+    width: 49%;
+    height: 220px;
+    border: 2px solid var(--accent);
+    border-radius: 10px;
+    overflow: hidden;
+    grid-template-rows: 50% 25% 12.5% 12.5%;
+    margin-top: 3px;
+}
+
+
+#add-workshop img{
+    width: 50px;
+    height: 50px;
+}
+    
+.workshop .img-wrapper{
+    overflow: hidden;
+    grid-row-start: 1;
+    grid-row-end: 1;
+
+}
+
+.workshop .img-wrapper img{
+    width: 100%;
+}
+
+.naam-workshop{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 0px 4px;
+
+    grid-row-start: 2;
+    grid-row-end: 2;
+
+
+    font-family: var(--h-font);
+    color: var(--main-text);
+    font-size: 1em;
+}
+
+.datum-workshop{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 0px 4px;
+
+    font-family: var(--text-font);
+    color: var(--main-text);
+    font-size: 1em;
+}
+
+.locatie-workshop{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 0px 4px;
+
+    font-family: var(--text-font);
+    color: var(--main-text);
+    font-size: 1em;
+}
+
+#add-workshop{
+    width: 49%;
+    height: 220px;
+    border: 2px solid var(--accent);
+    border-radius: 10px;
+    margin-top: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

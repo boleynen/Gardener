@@ -1,3 +1,75 @@
+<?php 
+
+include_once(__DIR__."/classes/c.product.php");
+include_once(__DIR__."/classes/c.user.php");
+
+session_start();
+
+$findId = new User();
+$findId->setEmail($_SESSION['email']);
+$myId = $findId->fetchMyId();
+$myId = implode(" ", $myId);
+$myId = intval($myId);
+
+if(isset($_POST["btn-product-voegtoe"])){
+
+    try {
+        $addProduct = new Product();
+
+        $prijs = "";
+        $gratis = "";
+        $ruilen = "";
+        $bestelling = "";
+
+        if($_POST['gratis'] == "on"){
+            $prijs = 0;
+            $gratis = 1;          
+        }else{  
+            $prijs = $_POST['prijsProduct'];
+            $gratis = 0;
+        }
+
+        if($_POST['ruilen'] == "on"){
+            $ruilen = 1;
+        }else if(!isset($_POST['ruilen'])){
+            $ruilen = 0;
+        }
+
+        if($_POST['bestelling'] == "on"){
+            $bestelling = 1;
+        }else if(!isset($_POST['bestelling'])){
+            $bestelling = 0;
+        }
+
+        $addProduct->setIdUser($myId);
+        $addProduct->setName($_POST['naamProduct']);
+        $addProduct->setType($_POST['typeProduct']);
+        $addProduct->setPrice($prijs);
+        $addProduct->setAmount($_POST['hoeveelheid']);
+        $addProduct->setFree($gratis);
+        $addProduct->setTrade($ruilen);
+        $addProduct->setOrder($bestelling);
+        $addProduct->setUnit($_POST['eenheid']);
+        $addProduct->setDescription($_POST['beschrijvingProduct']);
+        $addProduct->setPictures($_POST['fotoProduct1']);
+
+        $addProduct->saveProduct();
+
+        $message = "Je product is toegevoegd!";
+
+        echo "<script type='text/javascript'>alert('$message');</script>";
+
+    } catch (\Throwable $th) {
+        $error = $th->getMessage();
+    }
+    
+
+}
+
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,13 +82,25 @@
 
 <body>
     <div id="top-nav">
-        <div id="back-btn">
+        <div id="back-btn" onclick="history.go(-1);">
             <a href="#">&#8249;</a>
         </div>
         <p id="titel-pagina">Voeg een product toe</p>
     </div>
 
+    <?php 
+    
+    if(isset($error)){
+        echo $error;
+    }
+
+    ?>
+
     <main>
+        <!-- <div id="product-succes" class="succes-msg"  style="display:none;>
+            <p>Je Product is toegevoegd!</p>
+        </div> -->
+
         <form action="" method="post" id="form-product">
 
             <div class="input-wrapper">
@@ -27,7 +111,7 @@
 
             <div class="input-wrapper">
                 <label for="soort" class="input-title">Type product</label>
-                <select id="soort" name="soort" class="input-select-style">
+                <select id="soort" name="typeProduct" class="input-select-style">
                     <option value="" disabled selected>Selecteer een type product</option>
                     <option value="fruit">Fruit</option>
                     <option value="groente">Groente</option>
@@ -43,7 +127,8 @@
 
                     <div class="input-switch-style">
                         <label class="switch">
-                            <input type="checkbox" name="gratis">
+                            <input type="hidden" name="gratis" value="0">
+                            <input type="checkbox" name="gratis" id="gratis-toggle">                           
                             <span class="slider round"></span>
                         </label>
                         <label for="gratis" class="input-title input-title-switch">Gratis</label>
@@ -54,6 +139,7 @@
             <div class="input-wrapper input-switch-style">
                 <div id="switch-fc">
                     <label class="switch">
+                        <input type="hidden" name="ruilen" value="0">
                         <input type="checkbox" name="ruilen">
                         <span class="slider round"></span>
                     </label>
@@ -62,6 +148,7 @@
 
                 <div>
                     <label class="switch">
+                        <input type="hidden" name="bestelling" value="0">
                         <input type="checkbox" name="bestelling">
                         <span class="slider round"></span>
                     </label>
@@ -86,8 +173,8 @@
 
             <div class="input-wrapper">
                 <label for="beschrijvingProduct" class="input-title">Beschrijving</label>
-                <input type="text" name="beschrijvingProduct" class="input-text-style"
-                    placeholder="Beschrijf je product: organisch, soort grond gebruikt, ...">
+                <textarea type="text" name="beschrijvingProduct" class="input-text-style input-bigger"
+                    placeholder="Beschrijf je product: organisch, soort grond gebruikt, ..."></textarea>
             </div>
 
             <div class="input-wrapper">
@@ -120,10 +207,16 @@
                 </div>
             </div>
 
+            <div class="input-wrapper product-btns">
+                <input type="submit" value="ANNULEER" name="btn-product-annuleer" id="btn-annuleer">
+                <input type="submit" value="VOEG TOE" name="btn-product-voegtoe" id="btn-voegtoe">
+            </div>
+
         </form>
     </main>
 
     <script src="js/nieuwProduct.js"></script>
+
 </body>
 
 </html>
