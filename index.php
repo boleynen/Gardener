@@ -8,10 +8,16 @@ require "vendor/autoload.php";
 $geocoder = new \OpenCage\Geocoder\Geocoder('df6afe2aec1a4bb1b39fd65048d2c6b0');
 
 $fetchFarmers = new User();
-// $latLngArr = $fetchFarmers->getLatLng();
-// var_dump($latLngArr);
-// $numLatLngs = count($latLngArr);
+
+$latLngArr = $fetchFarmers->getLatLng();
+// $latLngArr = implode(" ", $latLngArr[0]);
+// print_r($latLngArr);
+$numLatLngs = count($latLngArr);
+
+// echo $latLngArr[0]['lat'];
 // var_dump($numLatLngs);
+
+
 $farmers = $fetchFarmers->fetchFarmerLocations();
 
 $farmersArr = [];
@@ -25,54 +31,34 @@ foreach($farmers as $farmer) {
 
 $addresses = $farmersArr;
 $results = [];
-$i = 0;
 
 foreach ($addresses as $address) {
   $result = $geocoder->geocode($address);
   $msg = $result['status']['message'];
   if ($msg == 'OK'){
       $results[$address] = $result;
-      print("<pre>".print_r($result['results'][0]['components']['town'],true)."</pre>");
-      print("<pre>".print_r($result['results'][0]['geometry'],true)."</pre>");
-       ${'farmer_'.$i++} = $result['results'][0]['geometry'];
-    // $result = $result['results'][0]['geometry'];
 
   } else {
       error_log("failed to geocode '$addresses' : $msg");
   }
 }
 
+$phpLocations = array();
 
-
-
-$markers = 
-array(
-    'type' => 'FeatureCollection',
-    'features' => array(
-        'type'          => 'Feature',
-        'geometry'      => array(
-            'type'          => 'Point',
-            'coordinates'   => array($farmer_0['lat'] . "," . $farmer_0['lng'])
-        ),
-        'properties'    => array(
-        'title'         => 'Mapbox',
-            'url'           => '#',
-            'description'   => 'Some Place'
-        )      
-    )
-);
-
-$geojson = array('type' => 'FeatureCollection', 'features' => array());
-
-    array_push($geojson['features'], $markers);
-    // echo json_encode($geojson);
-
+$p = 0;
+foreach($latLngArr as $item){
+    $phpLocations[$p]   = [
+        'title'         => 'Location A',
+        'url'           => 'index.php?1',
+        'description'   => 'Some text',
+        'lat'           => floatval($latLngArr[$p]['lat']),
+        'lng'           => floatval($latLngArr[$p]['lng'])
+    ];
+    $p++;
+}
 
 ?>
-<script>
 
-
-</script>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -86,7 +72,7 @@ $geojson = array('type' => 'FeatureCollection', 'features' => array());
     <script src='https://api.mapbox.com/mapbox-gl-js/v1.8.1/mapbox-gl.js'></script>
     <link href='https://api.mapbox.com/mapbox-gl-js/v1.8.1/mapbox-gl.css' rel='stylesheet' />
     <link href="https://api.mapbox.com/geocoding/v5" />
-
+    <script type="text/javascript" src="js/geojson.min.js"></script>
     <!-- <script src="https://api.mapbox.com/geocoding/v5/mapbox.places/4.3489,50.6274.json?access_token=pk.eyJ1IjoiYm9sZXluZW4iLCJhIjoiY2s5aWtpajFrMDN2YTNscWEzazZzZXY4dSJ9.Dbze0Z7l4JnwGO4HTPhidg"></script> -->
     
 
@@ -169,50 +155,17 @@ $geojson = array('type' => 'FeatureCollection', 'features' => array());
             })
         );
 
-        var geojson = {
-            type: 'FeatureCollection',
-            features: [{
-                    type: 'Feature',
-                    geometry: {
-                        type: 'Point',
-                        coordinates: [5.079318, 51.2670784]
-                    },
-                    properties: {
-                        title: 'Mapbox',
-                        url: 'index.php?1',
-                        description: 'Staarpad, Retie'
-                    }
-                },
-                {
-                    type: 'Feature',
-                    geometry: {
-                        type: 'Point',
-                        coordinates: [4.4810527, 51.0175734]
-                    },
-                    properties: {
-                        title: 'Mapbox',
-                        url: 'index.php?2',
-                        description: 'Van Kerckhovenstraat, Mechelen'
-                    }
-                },
-                {
-                    type: 'Feature',
-                    geometry: {
-                        type: 'Point',
-                        coordinates: [5.105809, 51.2533098]
-                    },
-                    properties: {
-                        title: 'Mapbox',
-                        url: 'index.php?2',
-                        description: 'Turnhoutsebaan, Dessel'
-                    }
-                }
-            ]
-        };
+var passedArray = <?php echo json_encode($phpLocations); ?>;
+
+console.log(passedArray);
 
 
+    var GeoJSONdata = GeoJSON.parse(passedArray, {Point: ['lat', 'lng']});
+    console.log(GeoJSONdata);
+    
+    
         // add markers to map
-        geojson.features.forEach(function (marker) {
+        GeoJSONdata.features.forEach(function (marker) {
 
             // create a HTML element for each feature
             var el = document.createElement('div');
@@ -231,5 +184,10 @@ $geojson = array('type' => 'FeatureCollection', 'features' => array());
     </script>
 
     <script src="js/index.js"></script>
+
+    <script>
+
+
+</script>
 
 </html>
