@@ -42,6 +42,8 @@ if(isset($_POST["btn-workshop-voegtoe"])){
 
         echo "<script type='text/javascript'>alert('$message');</script>";
 
+        header("Location: profiel.php");
+
 
     } catch (\Throwable $th) {
         $error = $th->getMessage();

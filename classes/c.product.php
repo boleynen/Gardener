@@ -291,5 +291,22 @@ class Product{
         return $products;
     }
 
+    public function fetchUserProducts(){
+        $conn = Database::getConnection();
+
+        $statement = $conn->prepare("SELECT naam, type, prijs, gratis, ruilen, bestelling, hoeveelheid, eenheid, beschrijving, fotos FROM product WHERE idUser = :idUser");
+
+        $idUser = $this->getIdUser();
+
+        $statement->bindValue("idUser", $idUser);
+
+        $products = $statement->execute();
+
+        $products = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+        return $products;
+    }
+
+
 
 }

@@ -14,50 +14,107 @@ $myId = intval($myId);
 if(isset($_POST["btn-product-voegtoe"])){
 
     try {
-        $addProduct = new Product();
 
-        $prijs = "";
-        $gratis = "";
-        $ruilen = "";
-        $bestelling = "";
+        $file           = $_FILES['fotoProduct1'];
+        $fileName       = $_FILES['fotoProduct1']['name'];
+        $fileTmpName    = $_FILES['fotoProduct1']['tmp_name'];
+        $fileSize       = $_FILES['fotoProduct1']['size'];
+        
+        $fileError      = $_FILES['fotoProduct1']['error'];
+        $fileExt        = explode(".", $fileName);
+        $fileActualExt  = strtolower(end($fileExt));
+        $fileNameNew    = uniqid('', true).".".$fileActualExt;
+        
+        $allowed        = array('jpg', 'jpeg', 'png');
 
-        if($_POST['gratis'] == "on"){
-            $prijs = 0;
-            $gratis = 1;          
-        }else{  
-            $prijs = $_POST['prijsProduct'];
-            $gratis = 0;
+        if( $fileError === 4 ||
+            empty($_POST['naamProduct']) ||
+            empty($_POST['typeProduct']) ||
+            empty($_POST['hoeveelheid']) ||
+            empty($_POST['eenheid'])){
+
+                $error = "Je moet alle velden invullen om door te gaan.";
+                exit();
+        }else{
+            
+            $addProduct = new Product();
+
+            $prijs = "";
+            $gratis = "";
+            $ruilen = "";
+            $bestelling = "";
+
+            if($_POST['gratis'] == "on"){
+                $prijs = 0;
+                $gratis = 1;          
+            }else{  
+                $prijs = $_POST['prijsProduct'];
+                $gratis = 0;
+            }
+    
+            if($_POST['ruilen'] == "on"){
+                $ruilen = 1;
+            }else if(!isset($_POST['ruilen'])){
+                $ruilen = 0;
+            }
+    
+            if($_POST['bestelling'] == "on"){
+                $bestelling = 1;
+            }else if(!isset($_POST['bestelling'])){
+                $bestelling = 0;
+            }
+    
+            $addProduct->setIdUser($myId);
+            $addProduct->setName($_POST['naamProduct']);
+            $addProduct->setType($_POST['typeProduct']);
+            $addProduct->setPrice($prijs);
+            $addProduct->setAmount($_POST['hoeveelheid']);
+            $addProduct->setFree($gratis);
+            $addProduct->setTrade($ruilen);
+            $addProduct->setOrder($bestelling);
+            $addProduct->setUnit($_POST['eenheid']);
+            $addProduct->setDescription($_POST['beschrijvingProduct']);
+            $addProduct->setPictures($_POST['fotoProduct1']);
+    
+            $addProduct->saveProduct();
+    
+            $message = "Je product is toegevoegd!";
+    
+            echo "<script type='text/javascript'>alert('$message');</script>";
+    
+            header("Location: profiel.php");
         }
 
-        if($_POST['ruilen'] == "on"){
-            $ruilen = 1;
-        }else if(!isset($_POST['ruilen'])){
-            $ruilen = 0;
+        if(in_array($fileActualExt, $allowed)){
+    
+            if($fileError === 0){
+                if($fileSize < 2000000){
+    
+                    $fileDestination = 'productfoto/'.$fileNameNew;
+    
+                    move_uploaded_file($fileTmpName, $fileDestination);
+    
+                    header("Location: login.php");
+    
+                }else if($fileError === 0){
+    
+                    echo "Je bestandstype is te groot. (max. 2MB)";
+    
+                }else{
+    
+                    echo "Error: Uploaden mislukt.";
+                    echo $fileError;
+    
+                }
+    
+            }else{
+    
+                echo "Error: Uploaden mislukt.";
+                echo $fileError;
+    
+            }
+
         }
-
-        if($_POST['bestelling'] == "on"){
-            $bestelling = 1;
-        }else if(!isset($_POST['bestelling'])){
-            $bestelling = 0;
-        }
-
-        $addProduct->setIdUser($myId);
-        $addProduct->setName($_POST['naamProduct']);
-        $addProduct->setType($_POST['typeProduct']);
-        $addProduct->setPrice($prijs);
-        $addProduct->setAmount($_POST['hoeveelheid']);
-        $addProduct->setFree($gratis);
-        $addProduct->setTrade($ruilen);
-        $addProduct->setOrder($bestelling);
-        $addProduct->setUnit($_POST['eenheid']);
-        $addProduct->setDescription($_POST['beschrijvingProduct']);
-        $addProduct->setPictures($_POST['fotoProduct1']);
-
-        $addProduct->saveProduct();
-
-        $message = "Je product is toegevoegd!";
-
-        echo "<script type='text/javascript'>alert('$message');</script>";
 
     } catch (\Throwable $th) {
         $error = $th->getMessage();
@@ -87,14 +144,11 @@ if(isset($_POST["btn-product-voegtoe"])){
         </div>
         <p id="titel-pagina">Voeg een product toe</p>
     </div>
-
-    <?php 
     
-    if(isset($error)){
-        echo $error;
-    }
-
-    ?>
+    <?php if(isset($error)):?>
+        <div class="error" style="color: white;">
+        <?php echo $error;?></div>
+    <?php endif;?>
 
     <main>
         <!-- <div id="product-succes" class="succes-msg"  style="display:none;>

@@ -2,6 +2,7 @@
 include_once(__DIR__."/includes/header.inc.php");
 include_once(__DIR__."/classes/c.profielVervolledigen.php");
 
+
 if(isset($_POST['vervolledig-submit'])){
 
     $voornaam       = $_POST['voornaam'];
@@ -11,6 +12,23 @@ if(isset($_POST['vervolledig-submit'])){
 
     $userid         = $_SESSION['userid']; 
     $useremail      = $_SESSION['useremail'];
+
+    require "vendor/autoload.php";
+
+    $geocoder = new \OpenCage\Geocoder\Geocoder('df6afe2aec1a4bb1b39fd65048d2c6b0');
+
+    $locatie = array($stad.", ".$straat);
+
+    $locatie = implode(" ", $locatie);
+
+    $latLngArr = $geocoder->geocode($locatie);
+
+    $latLngArr['results'][0]['geometry'];
+
+
+    $lat = $latLngArr['results'][0]['geometry']['lat'];
+    $lng = $latLngArr['results'][0]['geometry']['lng'];
+    
 
     $file           = $_FILES['avatar'];
     $fileName       = $_FILES['avatar']['name'];
@@ -29,6 +47,7 @@ if(isset($_POST['vervolledig-submit'])){
         $error = "Je moet alle velden invullen om door te gaan.";
         exit();
 
+
     }else{
         $vervolledig = new Complete();
 
@@ -36,6 +55,8 @@ if(isset($_POST['vervolledig-submit'])){
         $vervolledig->setLastname($achternaam);
         $vervolledig->setCity($_POST['stad']);
         $vervolledig->setStreet($_POST['straat']);
+        $vervolledig->setLat($lat);
+        $vervolledig->setLng($lng);
         $vervolledig->setAvatar($fileNameNew);
         $vervolledig->setEmail($useremail);
 
@@ -47,15 +68,20 @@ if(isset($_POST['vervolledig-submit'])){
         if($fileError === 0){
             if($fileSize < 2000000){
 
-                $fileDestination = 'C:/xampp/htdocs/lab2/Gardener/avatars/'.$fileNameNew;
+                $fileDestination = 'avatars/'.$fileNameNew;
 
                 move_uploaded_file($fileTmpName, $fileDestination);
 
-                header("Location: ../gardener/login.php");
+                header("Location: login.php");
+
+            }else if($fileError === 0){
+
+                echo "Je bestandstype is te groot. (max. 2MB)";
 
             }else{
 
-                echo "Je bestandstype is te groot. (max. 2MB)";
+                echo "Error: Uploaden mislukt.";
+                echo $fileError;
 
             }
 

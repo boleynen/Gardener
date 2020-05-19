@@ -10,50 +10,53 @@ $geocoder = new \OpenCage\Geocoder\Geocoder('df6afe2aec1a4bb1b39fd65048d2c6b0');
 $fetchFarmers = new User();
 
 $latLngArr = $fetchFarmers->getLatLng();
-// $latLngArr = implode(" ", $latLngArr[0]);
-// print_r($latLngArr);
 $numLatLngs = count($latLngArr);
 
-// echo $latLngArr[0]['lat'];
-// var_dump($numLatLngs);
-
-
 $farmers = $fetchFarmers->fetchFarmerLocations();
+$numItems = count($farmers);
+
+$farmerNames = $fetchFarmers->getFarmerName();
+
+$farmerIds = $fetchFarmers->getFarmerId();
 
 $farmersArr = [];
 
-$numItems = count($farmers);
+
+
 
 foreach($farmers as $farmer) {
-    $addresses = "'" . $farmer['straat'] . ", " . $farmer['stad'] . "'";
+    $addresses = $farmer['straat'] . ", " . $farmer['stad'];
     $farmersArr[] = $addresses;
 }
 
-$addresses = $farmersArr;
-$results = [];
-
-foreach ($addresses as $address) {
-  $result = $geocoder->geocode($address);
-  $msg = $result['status']['message'];
-  if ($msg == 'OK'){
-      $results[$address] = $result;
-
-  } else {
-      error_log("failed to geocode '$addresses' : $msg");
-  }
+foreach($farmerNames as $farmerName) {
+    $names = $farmerName['voornaam'] . " " . $farmerName['achternaam'];
+    $namesArr [] = $names;
 }
+
+foreach($farmerIds as $farmerId) {
+    $ids = $farmerId['id'];
+    $idsArr [] = $ids;
+}
+
 
 $phpLocations = array();
 
 $p = 0;
 foreach($latLngArr as $item){
-    $phpLocations[$p]   = [
-        'title'         => 'Location A',
-        'url'           => 'index.php?1',
-        'description'   => 'Some text',
-        'lat'           => floatval($latLngArr[$p]['lat']),
-        'lng'           => floatval($latLngArr[$p]['lng'])
-    ];
+    foreach($farmers as $farmer) {
+        foreach($farmerNames as $name) {
+            foreach($farmerIds as $Ids) {
+                $phpLocations[$p]   = [
+                    'title'         => $namesArr[$p],
+                    'url'           => 'userProfiel.php?Uid='.$idsArr[$p],
+                    'description'   => $farmersArr[$p],
+                    'lat'           => floatval($latLngArr[$p]['lat']),
+                    'lng'           => floatval($latLngArr[$p]['lng'])
+                ];
+            }
+        }
+    }
     $p++;
 }
 
@@ -190,4 +193,4 @@ console.log(passedArray);
 
 </script>
 
-</html>
+</html> 

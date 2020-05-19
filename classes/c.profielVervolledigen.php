@@ -7,6 +7,8 @@ class Complete{
     private $lastname;
     private $city;
     private $street;
+    private $lat;
+    private $lng;
     private $avatar;
     private $email;
 
@@ -91,6 +93,46 @@ class Complete{
     }
 
     /**
+     * Get the value of lat
+     */ 
+    public function getLat()
+    {
+        return $this->lat;
+    }
+
+    /**
+     * Set the value of lat
+     *
+     * @return  self
+     */ 
+    public function setLat($lat)
+    {
+        $this->lat = $lat;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of lng
+     */ 
+    public function getLng()
+    {
+        return $this->lng;
+    }
+
+    /**
+     * Set the value of lng
+     *
+     * @return  self
+     */ 
+    public function setLng($lng)
+    {
+        $this->lng = $lng;
+
+        return $this;
+    }
+
+    /**
      * Get the value of avatar
      */ 
     public function getAvatar()
@@ -138,7 +180,9 @@ class Complete{
         voornaam    = :firstname, 
         achternaam  = :lastname, 
         stad        = :city, 
-        straat      = :street, 
+        straat      = :street,
+        lat         = :lat,
+        lng         = :lng,
         avatar      = :avatar
         WHERE email = :email");
 
@@ -146,6 +190,8 @@ class Complete{
         $lastname   = $this->getLastname();
         $city       = $this->getCity();
         $street     = $this->getStreet();
+        $lat        = $this->getLat();
+        $lng        = $this->getLng();
         $avatar     = $this->getAvatar();
         $email      = $this->getEmail();
 
@@ -153,6 +199,8 @@ class Complete{
         $statement->bindValue("lastname", $lastname);
         $statement->bindValue("city", $city);
         $statement->bindValue("street", $street);
+        $statement->bindValue("lat", $lat);
+        $statement->bindValue("lng", $lng);
         $statement->bindValue("avatar", $avatar);
         $statement->bindValue("email", $email);
 
@@ -160,5 +208,6 @@ class Complete{
 
 
     }
+
 
 }

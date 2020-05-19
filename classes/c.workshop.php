@@ -245,6 +245,23 @@ class Workshop{
         return $products;
     }
 
+    public function fetchUserProducts(){
+        $conn = Database::getConnection();
+
+        $statement = $conn->prepare("SELECT naam, datum, start, locatie, prijs, gratis, beschrijving, foto FROM workshop WHERE idUser = :idUser");
+
+        $idUser = $this->getIdUser();
+
+        $statement->bindValue("idUser", $idUser);
+
+        $products = $statement->execute();
+
+        $products = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+        return $products;
+    }
+
+
 
 
 }

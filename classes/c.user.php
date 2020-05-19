@@ -3,6 +3,7 @@
 include_once(__DIR__."/c.database.php");
 
 class User{
+    private $uId;
     private $username;
     private $email;
     private $password;
@@ -12,6 +13,25 @@ class User{
     private $phonenumber;
 
     
+/**
+     * Get the value of uId
+     */ 
+    public function getUId()
+    {
+        return $this->uId;
+    }
+
+    /**
+     * Set the value of uId
+     *
+     * @return  self
+     */ 
+    public function setUId($uId)
+    {
+        $this->uId = $uId;
+
+        return $this;
+    }
 
     /**
      * Get the value of username
@@ -241,6 +261,51 @@ class User{
 
         return $data;
     }
+
+    public function getFarmerName(){
+        $conn = Database::getConnection();
+
+        $statement = $conn->prepare("SELECT voornaam, achternaam FROM user");
+
+        $data = $statement->execute();
+
+        $data = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+        return $data;
+    }
+
+    public function getFarmerId(){
+        $conn = Database::getConnection();
+
+        $statement = $conn->prepare("SELECT id FROM user");
+
+        $data = $statement->execute();
+
+        $data = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+        return $data;
+    }
+
+    public function getUser(){
+        $conn = Database::getConnection();
+
+        $statement = $conn->prepare("SELECT voornaam, achternaam, email, avatar FROM user WHERE id like :uid");
+
+        $uId = $this->getUId();
+
+        $statement->bindValue("uid", $uId);
+
+        $data = $statement->execute();
+
+        $data = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+        return $data;
+    }
+
+
+
+
+    
 }
 
 
