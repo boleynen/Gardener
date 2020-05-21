@@ -69,9 +69,7 @@ foreach($latLngArr as $item){
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <link rel="stylesheet" type="text/css" href="style.css" />
-
     <script src='https://api.mapbox.com/mapbox-gl-js/v1.8.1/mapbox-gl.js'></script>
     <link href='https://api.mapbox.com/mapbox-gl-js/v1.8.1/mapbox-gl.css' rel='stylesheet' />
     <link href="https://api.mapbox.com/geocoding/v5" />
@@ -79,7 +77,6 @@ foreach($latLngArr as $item){
     <!-- <script src="https://api.mapbox.com/geocoding/v5/mapbox.places/4.3489,50.6274.json?access_token=pk.eyJ1IjoiYm9sZXluZW4iLCJhIjoiY2s5aWtpajFrMDN2YTNscWEzazZzZXY4dSJ9.Dbze0Z7l4JnwGO4HTPhidg"></script> -->
     
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
 
     <title>Homepagina</title>
@@ -118,7 +115,8 @@ foreach($latLngArr as $item){
     <button type="button" id="voeg-toe-btn" class=""></button>
 
     <div id="producten">
-        <a href="#" id="product" class="clearfix">
+ 
+        <a href="#" id="product">
             <div id="product-img-wrapper">
                 <img src="images/tomato-placeholder.png" alt="foto product">
             </div>
@@ -129,7 +127,7 @@ foreach($latLngArr as $item){
             </div>
         </a>
         <a href="#" id="product">
-            <div id="product-img-wrapper" class="clearfix">
+            <div id="product-img-wrapper" >
                 <img src="images/tomato-placeholder.png" alt="foto product">
             </div>
             <div id="product-info">
@@ -138,6 +136,7 @@ foreach($latLngArr as $item){
                 <p>Bruul, Mechelen</p>
             </div>
         </a>
+
     </div>
 </body>
 <script>
@@ -189,6 +188,7 @@ console.log(passedArray);
     <script src="js/index.js"></script>
 
     <script>
+
 
 
 </script>
