@@ -4,6 +4,7 @@ include_once(__DIR__."/c.database.php");
 
 class User{
     private $uId;
+    private $pId;
     private $username;
     private $email;
     private $password;
@@ -173,6 +174,27 @@ class User{
         return $this;
     }
 
+    
+    /**
+     * Get the value of pId
+     */ 
+    public function getPId()
+    {
+        return $this->pId;
+    }
+
+    /**
+     * Set the value of pId
+     *
+     * @return  self
+     */ 
+    public function setPId($pId)
+    {
+        $this->pId = $pId;
+
+        return $this;
+    }
+
     public function fetchPassword(){
         $conn = Database::getConnection();
         
@@ -330,10 +352,27 @@ class User{
         return $data;
     }
 
+    public function fetchProduct(){
+        $conn = Database::getConnection();
+
+        $statement = $conn->prepare("SELECT * FROM product WHERE id like :uid");
+
+        $uId = $this->getUId();
+
+        $statement->bindValue("uid", $uId);
+
+        $data = $statement->execute();
+
+        $data = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+        return $data;
+    }
+
 
 
 
     
+
 }
 
 

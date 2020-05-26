@@ -24,4 +24,35 @@ window.onload=function(){
         }
 
     });
+
+    // var productInfo = document.querySelector("#product-extra-wrap");
+    // var producten = document.querySelectorAll("#product");
+    var close = document.querySelector("#exit-product");
+
+    // var p = 0;
+
+    // for (var i = 0; i < producten.length; i++) {
+
+    //     producten[i].addEventListener('click', function(event){
+    //         event.preventDefault();
+
+    //         if(p === 0){
+    //             productInfo.style.display = "none";
+    //             p = 1;
+    //         }
+
+    //         if(p === 1){
+    //             productInfo.style.display = "block";
+    //             p = 0;
+    //         }
+
+
+    //     });
+
+    // }
+
+    // close.addEventListener("click", function(){
+    //     productInfo.style.display = "none";
+    // });
+
 }

@@ -63,7 +63,6 @@ $userWorkshops = $fetchUserWorkshops->fetchUserProducts();
 
         <div id="mijn-producten">
         <?php 
-        var_dump($userProducts);
 
             $keys = array_keys($userProducts);
 

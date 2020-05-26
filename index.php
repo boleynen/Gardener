@@ -112,7 +112,7 @@ foreach($latLngArr as $item){
     <button type="button" id="voeg-toe-btn" class=""></button>
 
     <div id="producten">
-    <?php 
+        <?php 
     $allusers = new User();
     $products = $allusers->getProducts();
     // var_dump($products);
@@ -122,8 +122,8 @@ foreach($latLngArr as $item){
     for($i=0; $i<count($products); $i++){
         ?>
 
-        <a href="#" id="product">
-        <?php
+        <a href="product.php?id=<?php echo $products[$i]['id']?>" id="product">
+            <?php
 
         $allusers->setuId($products[$i]['idUser']);
         $location = $allusers->getLocation();
@@ -132,72 +132,49 @@ foreach($latLngArr as $item){
         foreach ($products[$keys[$i]] as $key => $value) {
             switch($key){
                 case "naam": ?>
-                    <div id="product-info">
-                    <h2>
-                        <?php  echo $value ?>
-                    </h2> <?php ;
+            <div id="product-info">
+                <h2>
+                    <?php  echo $value ?>
+                </h2> <?php ;
                 break;
                 case "prijs": ?>
-                    <p> &euro;
-                        <?php echo $value ?>
+                <p> &euro;
+                    <?php echo $value ?>
                     <?php
                 break;
                 case "eenheid": ?>
                     /
-                        <?php echo $value ?>
-                    </p> 
-                    
-                    <p>
+                    <?php echo $value ?>
+                </p>
+
+                <p>
                     <?php echo $location ?>
-                    </p>
-                    </div> <?php
+                </p>
+            </div> <?php
                 break;
                 case "fotos": ?>
-                    <div id="product-img-wrapper">
-                        <img src="images/<?php echo $value?>" alt="foto product">
-                    </div> <?php ;
+            <div id="product-img-wrapper">
+                <img src="images/<?php echo $value?>" alt="foto product">
+            </div> <?php ;
                 break;
 
             }
         }
 
+        
+
         ?>
         </a>
-        
-    <?php
+
+        <?php
     }
     ?>
 
     </div>
 
-    <div id="product-extra">
-        <div>
-            <div>
-                <img src="#" alt="foto product">
-            </div>
+    
 
-            <h2>Tomaten</h2>
-            <p>Groente</p>
-            <p>3 / kg</p>
 
-            <h3>Beschrijving</h3>
-            <p>Biologisch gekweekte tomaten. De tomaten zijn gevoed met zelf gecomposteerd compost en zijn alleen bewaterd met water uit een regen-ton.</p>
-            
-            <h3>Op de kaart</h3>
-            <p>Bruul, Mechelen</p>
-
-            <div>
-                <img src="#" alt="profielfoto verkoper">
-                <h3>Jane Doe</h3>
-                <p>Verkoper</p>
-            </div>
-
-            <a href="#">Chat</a>
-        </div>
-        <div>
-
-        </div>
-    </div>
 </body>
 
 <script>
@@ -207,7 +184,7 @@ foreach($latLngArr as $item){
         'pk.eyJ1IjoiYm9sZXluZW4iLCJhIjoiY2s5aWtpajFrMDN2YTNscWEzazZzZXY4dSJ9.Dbze0Z7l4JnwGO4HTPhidg';
     var map = new mapboxgl.Map({
         container: 'map',
-        style: 'mapbox://styles/boleynen/cka5fprvi12781ilju4mqed5v',
+        style: 'mapbox://styles/boleynen/ckao40vah6dkb1io0ufhpwpoj',
         center: [4.3489, 50.6274],
         zoom: 7.15
     });
@@ -218,15 +195,19 @@ foreach($latLngArr as $item){
         })
     );
 
-    var passedArray = <?php echo json_encode($phpLocations); ?>;
+
+
+    var passedArray = <?php echo json_encode($phpLocations); ?> ;
 
     console.log(passedArray);
 
 
-    var GeoJSONdata = GeoJSON.parse(passedArray, {Point: ['lat', 'lng']});
+    var GeoJSONdata = GeoJSON.parse(passedArray, {
+        Point: ['lat', 'lng']
+    });
     console.log(GeoJSONdata);
-    
-    
+
+
     // add markers to map
     GeoJSONdata.features.forEach(function (marker) {
 
@@ -240,13 +221,16 @@ foreach($latLngArr as $item){
             .setPopup(new mapboxgl.Popup({
                     offset: 25
                 }) // add popups
-                .setHTML('<h3><a href="' + marker.properties.url + '">' + marker.properties.title + '</a></h3><p>' + marker.properties.description +
+                .setHTML('<h3><a href="' + marker.properties.url + '">' + marker.properties.title +
+                    '</a></h3><p>' + marker.properties.description +
                     '</p>'))
             .addTo(map);
     });
+
+
 </script>
 
 <script src="js/index.js"></script>
 
 
-</html> 
+</html>

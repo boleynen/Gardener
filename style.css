@@ -39,7 +39,7 @@
     width: 100vw;
     height: 100vh;
     z-index: -1000;
-    position: absolute;
+    position:absolute; 
 }
 
 /* LOGIN & REGISTRATIE ------------------------------------------------------*/
@@ -464,7 +464,6 @@ h1 {
     width: 100%;
     height: 100%;
     object-fit: cover;
-
 }
 
 #product-img-wrapper{
@@ -484,7 +483,7 @@ h1 {
     height: 100%;
 }
 
-#producten h2{
+#producten h2, #product-extra h2{
     font-family: var(--h-font);
     font-size: 20px;
     color: var(--main-text);
@@ -500,6 +499,121 @@ h1 {
 #producten p:first-of-type{
     font-size: 20px;
 }
+
+#product-extra-wrap{
+    /* display: none; */
+}
+
+#product-extra{
+    z-index: 3000;
+    position: absolute;
+    background-color: rgb(255, 255, 255);
+    height: 80vh;
+    width: 100vw;
+}
+
+.product-img-wrapper{
+    overflow: hidden;
+    height: 220px;
+    width: 100%;
+}
+
+.product-img-wrapper img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+#product-extra p{
+    font-family: var(--text-font);
+    color: var(--sub-text);
+}
+
+#product-extra h3{
+    font-family: var(--text-font);
+    color: var(--sub-text);
+}
+
+.product-content{
+    width: 90%;
+    margin: 15px auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    height: 50vh;
+}
+
+#seller-wrapper div{
+    display: flex;
+    /* align-items: center; */
+}
+
+#seller-wrapper .img-wrapper{
+    margin-right: 15px;
+    width: 50px;
+    height: 50px;
+    
+}
+
+#seller-wrapper .img-wrapper img{
+    border-radius: 100%;
+}
+
+#seller-wrapper #seller-info{
+    display: flex;
+    flex-direction: column;
+}
+
+#seller-wrapper{
+    display: flex;
+    justify-content: space-between;
+}
+
+#product-ctas{
+    bottom: 20px;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+#product-ctas .koop-cta{
+    display: flex;
+    background-color: var(--main-orange);
+    border-radius: 100%;
+    width: 80px;
+    height: 80px;
+    justify-content: center;
+    align-items: center;
+}
+
+.koop-cta a{
+    text-decoration: none;
+    font-family: var(--h-font);
+    color: white;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+#exit-product{
+    background-color: white;
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    right: 20px;
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 20px;
+    text-decoration: none;
+    font-family: var(--h-font);
+    color: var(--main-text);
+    font-weight: bold;
+}
+
+
 
 
 
