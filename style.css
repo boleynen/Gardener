@@ -480,6 +480,7 @@ h1 {
     flex-direction: column;
     justify-content: space-evenly;
     padding-left: 15px;
+    padding-right: 15px;
     height: 100%;
 }
 
@@ -491,7 +492,11 @@ h1 {
 #producten p{
     font-family: var(--text-font);
     color: var(--sub-text);
+    overflow: hidden;
+    white-space: nowrap; /* Don't forget this one */
+    text-overflow: ellipsis;
 }
+
 #producten p:first-of-type{
     font-size: 20px;
 }

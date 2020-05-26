@@ -302,6 +302,34 @@ class User{
         return $data;
     }
 
+    public function getProducts(){
+        $conn = Database::getConnection();
+
+        $statement = $conn->prepare("SELECT * FROM product ORDER BY FIELD (fotos, naam, prijs, eenheid) DESC");
+
+        $products = $statement->execute();
+
+        $products = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+        return $products;
+    }
+
+    public function getLocation(){
+        $conn = Database::getConnection();
+
+        $statement = $conn->prepare("SELECT straat, stad FROM user WHERE id like :uid");
+
+        $uId = $this->getUId();
+
+        $statement->bindValue("uid", $uId);
+
+        $data = $statement->execute();
+
+        $data = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+        return $data;
+    }
+
 
 
 

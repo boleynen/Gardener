@@ -74,10 +74,7 @@ foreach($latLngArr as $item){
     <link href='https://api.mapbox.com/mapbox-gl-js/v1.8.1/mapbox-gl.css' rel='stylesheet' />
     <link href="https://api.mapbox.com/geocoding/v5" />
     <script type="text/javascript" src="js/geojson.min.js"></script>
-    <!-- <script src="https://api.mapbox.com/geocoding/v5/mapbox.places/4.3489,50.6274.json?access_token=pk.eyJ1IjoiYm9sZXluZW4iLCJhIjoiY2s5aWtpajFrMDN2YTNscWEzazZzZXY4dSJ9.Dbze0Z7l4JnwGO4HTPhidg"></script> -->
-    
-
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <title>Homepagina</title>
 </head>
@@ -115,82 +112,141 @@ foreach($latLngArr as $item){
     <button type="button" id="voeg-toe-btn" class=""></button>
 
     <div id="producten">
- 
+    <?php 
+    $allusers = new User();
+    $products = $allusers->getProducts();
+    // var_dump($products);
+
+    $keys = array_keys($products);
+
+    for($i=0; $i<count($products); $i++){
+        ?>
+
         <a href="#" id="product">
-            <div id="product-img-wrapper">
-                <img src="images/tomato-placeholder.png" alt="foto product">
-            </div>
-            <div id="product-info">
-                <h2>Rode tomaten</h2>
-                <p>&euro;3,00/KG</p>
-                <p>Bruul, Mechelen</p>
-            </div>
+        <?php
+
+        $allusers->setuId($products[$i]['idUser']);
+        $location = $allusers->getLocation();
+        $location = implode(", ", $location[0]);
+    
+        foreach ($products[$keys[$i]] as $key => $value) {
+            switch($key){
+                case "naam": ?>
+                    <div id="product-info">
+                    <h2>
+                        <?php  echo $value ?>
+                    </h2> <?php ;
+                break;
+                case "prijs": ?>
+                    <p> &euro;
+                        <?php echo $value ?>
+                    <?php
+                break;
+                case "eenheid": ?>
+                    /
+                        <?php echo $value ?>
+                    </p> 
+                    
+                    <p>
+                    <?php echo $location ?>
+                    </p>
+                    </div> <?php
+                break;
+                case "fotos": ?>
+                    <div id="product-img-wrapper">
+                        <img src="images/<?php echo $value?>" alt="foto product">
+                    </div> <?php ;
+                break;
+
+            }
+        }
+
+        ?>
         </a>
-        <a href="#" id="product">
-            <div id="product-img-wrapper" >
-                <img src="images/tomato-placeholder.png" alt="foto product">
-            </div>
-            <div id="product-info">
-                <h2>Rode tomaten</h2>
-                <p>&euro;3,00/KG</p>
-                <p>Bruul, Mechelen</p>
-            </div>
-        </a>
+        
+    <?php
+    }
+    ?>
 
     </div>
+
+    <div id="product-extra">
+        <div>
+            <div>
+                <img src="#" alt="foto product">
+            </div>
+
+            <h2>Tomaten</h2>
+            <p>Groente</p>
+            <p>3 / kg</p>
+
+            <h3>Beschrijving</h3>
+            <p>Biologisch gekweekte tomaten. De tomaten zijn gevoed met zelf gecomposteerd compost en zijn alleen bewaterd met water uit een regen-ton.</p>
+            
+            <h3>Op de kaart</h3>
+            <p>Bruul, Mechelen</p>
+
+            <div>
+                <img src="#" alt="profielfoto verkoper">
+                <h3>Jane Doe</h3>
+                <p>Verkoper</p>
+            </div>
+
+            <a href="#">Chat</a>
+        </div>
+        <div>
+
+        </div>
+    </div>
 </body>
+
 <script>
-        // INSERT MAP IN HOMEPAGE
+    // INSERT MAP IN HOMEPAGE
 
-        mapboxgl.accessToken =
-            'pk.eyJ1IjoiYm9sZXluZW4iLCJhIjoiY2s5aWtpajFrMDN2YTNscWEzazZzZXY4dSJ9.Dbze0Z7l4JnwGO4HTPhidg';
-        var map = new mapboxgl.Map({
-            container: 'map',
-            style: 'mapbox://styles/boleynen/cka5fprvi12781ilju4mqed5v',
-            center: [4.3489, 50.6274],
-            zoom: 7.15
-        });
-        map.addControl(
-            new MapboxGeocoder({
-                accessToken: mapboxgl.accessToken,
-                mapboxgl: mapboxgl
-            })
-        );
+    mapboxgl.accessToken =
+        'pk.eyJ1IjoiYm9sZXluZW4iLCJhIjoiY2s5aWtpajFrMDN2YTNscWEzazZzZXY4dSJ9.Dbze0Z7l4JnwGO4HTPhidg';
+    var map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/boleynen/cka5fprvi12781ilju4mqed5v',
+        center: [4.3489, 50.6274],
+        zoom: 7.15
+    });
+    map.addControl(
+        new MapboxGeocoder({
+            accessToken: mapboxgl.accessToken,
+            mapboxgl: mapboxgl
+        })
+    );
 
-var passedArray = <?php echo json_encode($phpLocations); ?>;
+    var passedArray = <?php echo json_encode($phpLocations); ?>;
 
-console.log(passedArray);
+    console.log(passedArray);
 
 
     var GeoJSONdata = GeoJSON.parse(passedArray, {Point: ['lat', 'lng']});
     console.log(GeoJSONdata);
     
     
-        // add markers to map
-        GeoJSONdata.features.forEach(function (marker) {
+    // add markers to map
+    GeoJSONdata.features.forEach(function (marker) {
 
-            // create a HTML element for each feature
-            var el = document.createElement('div');
-            el.className = 'marker';
+        // create a HTML element for each feature
+        var el = document.createElement('div');
+        el.className = 'marker';
 
-            // make a marker for each feature and add to the map
-            new mapboxgl.Marker(el)
-                .setLngLat(marker.geometry.coordinates)
-                .setPopup(new mapboxgl.Popup({
-                        offset: 25
-                    }) // add popups
-                    .setHTML('<h3><a href="' + marker.properties.url + '">' + marker.properties.title + '</a></h3><p>' + marker.properties.description +
-                        '</p>'))
-                .addTo(map);
-        });
-    </script>
-
-    <script src="js/index.js"></script>
-
-    <script>
-
-
-
+        // make a marker for each feature and add to the map
+        new mapboxgl.Marker(el)
+            .setLngLat(marker.geometry.coordinates)
+            .setPopup(new mapboxgl.Popup({
+                    offset: 25
+                }) // add popups
+                .setHTML('<h3><a href="' + marker.properties.url + '">' + marker.properties.title + '</a></h3><p>' + marker.properties.description +
+                    '</p>'))
+            .addTo(map);
+    });
 </script>
+
+<script src="js/index.js"></script>
+
 
 </html> 

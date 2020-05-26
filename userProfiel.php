@@ -62,8 +62,9 @@ $userWorkshops = $fetchUserWorkshops->fetchUserProducts();
         <h2 id="producten-title">Producten van <?php echo $userFirstname?></h2>
 
         <div id="mijn-producten">
-
         <?php 
+        var_dump($userProducts);
+
             $keys = array_keys($userProducts);
 
             for($i = 0; $i < count($userProducts); $i++) {
