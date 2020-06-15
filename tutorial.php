@@ -53,7 +53,7 @@
     </div>
 
     <div id="cta">
-        <a href="index.php">START</a>
+        <a href="login.php">START</a>
     </div>
 
     <div id="position-dots">

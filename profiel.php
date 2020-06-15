@@ -36,8 +36,8 @@ $myWorkshops = $getMyWorkshops->fetchMyWorkshops();
 <body>
 
     <div id="top-nav">
-        <div id="back-btn" onclick="history.go(-1);">
-            <a href="#">&#8249;</a>
+        <div id="back-btn">
+            <a href="index.php">&#8249;</a>
         </div>
         <p id="titel-pagina">Mijn profiel</p>
     </div>

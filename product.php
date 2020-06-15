@@ -35,20 +35,53 @@ $user = $getproduct->getUser();
         <div id="product-extra">
             <a href="index.php" id="exit-product">X</a>
             <div class="product-img-wrapper">
-                <img src="images/tomatoes.png" alt="foto product">
+                <img src="images/<?php echo $product[0]['fotos'] ?>" alt="foto product">
             </div>
 
             <div class="product-content">
 
-                <h2><?php echo $product[0]['naam'] ?></h2>
-                <p><?php echo $product[0]['type'] ?></p>
-                <p>&euro; <?php echo $product[0]['prijs'] ?> / <?php echo $product[0]['eenheid'] ?></p>
+                <div id="title-price">
+                    <h2><?php echo $product[0]['naam'] ?></h2>
+                    <p><?php echo $product[0]['type'] ?></p>
+                    <p class="price">&euro; <?php echo $product[0]['prijs'] ?> / <?php echo $product[0]['eenheid'] ?></p>
+                </div>
 
+                <?php 
+                    if($product[0]['ruilen'] == 1 || $product[0]['bestelling'] == 1){
+                        ?>
+                        <div>
+                        <?php 
+                            if($product[0]['ruilen'] == 1){
+                                ?>
+                                <p>&#x2714; Kan geruild worden</p>
+                                <?php 
+                            }
+
+                            if($product[0]['bestelling'] == 1){
+                                ?>
+                                <p>&#x2714; Kan op bestelling</p>
+                                <?php 
+                            }
+
+                        
+                        ?>
+                    </div>
+                    <?php
+                    }
+                ?>
+                
+
+                <div>
                 <h3>Beschrijving</h3>
                 <p><?php echo $product[0]['beschrijving'] ?></p>
+                </div>
 
+                <div>
                 <h3>Op de kaart</h3>
                 <p><?php echo $location ?></p>
+                </div>
+
+
 
                 <div id="seller-wrapper">
                     <div>
@@ -56,13 +89,13 @@ $user = $getproduct->getUser();
                             <img src="avatars/<?php echo $user[0]['avatar'] ?>" alt="profielfoto verkoper">
                         </div>
                         <div id="seller-info">
-                            <h3><?php echo $user[0]['voornaam'] ?>
-                            <?php echo $user[0]['achternaam']?>
+                            <h3><a style="text-decoration: none; color: #585858" href="userProfiel.php?Uid=<?php echo $user[0]['id'] ?>"><?php echo $user[0]['voornaam'] ?>
+                            <?php echo $user[0]['achternaam']?></a>
                             </h3>
                             <p>Verkoper</p>
                         </div>
                     </div>
-                    <a href="#">Chat</a>
+                    <a href="chatbox.php?uid=<?php echo $user[0]['id'] ?>">Chat</a>
                 </div>
             </div>
         </div>
@@ -71,7 +104,7 @@ $user = $getproduct->getUser();
                 <a href="#"></a>
             </div>
             <div class="koop-cta">
-                <a href="#">koop</a>
+                <a href="chatbox.php?uid=<?php echo $user[0]['id'] ?>">koop</a>
             </div>
             <div>
                 <a href="#"></a>

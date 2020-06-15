@@ -311,7 +311,7 @@ class User{
     public function getUser(){
         $conn = Database::getConnection();
 
-        $statement = $conn->prepare("SELECT voornaam, achternaam, email, avatar FROM user WHERE id like :uid");
+        $statement = $conn->prepare("SELECT id, voornaam, achternaam, email, avatar FROM user WHERE id like :uid");
 
         $uId = $this->getUId();
 

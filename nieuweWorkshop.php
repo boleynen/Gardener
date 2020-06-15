@@ -13,41 +13,106 @@ $myId = intval($myId);
 
 if(isset($_POST["btn-workshop-voegtoe"])){
     try {
-        $addWorkshop = new Workshop();
 
         $prijs = "";
         $gratis = "";
 
-        if($_POST['gratis'] == "on"){
-            $prijs = 0;
-            $gratis = 1;          
-        }else{  
-            $prijs = $_POST['prijsWorkshop'];
-            $gratis = 0;
+        $file           = $_FILES['fotoProduct1'];
+        $fileName       = $_FILES['fotoProduct1']['name'];
+        $fileTmpName    = $_FILES['fotoProduct1']['tmp_name'];
+        $fileSize       = $_FILES['fotoProduct1']['size'];
+        
+        $fileError      = $_FILES['fotoProduct1']['error'];
+        $fileExt        = explode(".", $fileName);
+        $fileActualExt  = strtolower(end($fileExt));
+        $fileNameNew    = uniqid('', true).".".$fileActualExt;
+        
+        $allowed        = array('jpg', 'jpeg', 'png');
+
+        if( $fileError === 4 
+        // ||
+        //     empty($_POST['naamWorkshop']) ||
+        //     empty($_POST['datumProduct']) ||
+        //     empty($_POST['startUur']) ||
+        //     empty($_POST['locatieWorkshop'])
+            ){
+
+                $error = "Je moet alle velden invullen om door te gaan.";
+                // exit();
+                echo $error;
+
+        }else{
+
+            $addWorkshop = new Workshop();
+
+            if($_POST['gratis'] == "on"){
+                $prijs = 0;
+                $gratis = 1;          
+            }else{  
+                $prijs = $_POST['prijsWorkshop'];
+                $gratis = 0;
+            }
+    
+            $addWorkshop->setIdUser($myId);
+            $addWorkshop->setName($_POST['naamWorkshop']);
+            $addWorkshop->setDate($_POST['datumWorkshop']);
+            $addWorkshop->setStart($_POST['startUur']);
+            $addWorkshop->setLocation($_POST['locatieWorkshop']);
+            $addWorkshop->setPrice($prijs);
+            $addWorkshop->setFree($gratis);
+            $addWorkshop->setDescription($_POST['beschrijvingWorkshop']);
+            $addWorkshop->setPicture($fileNameNew);
+    
+            if(in_array($fileActualExt, $allowed)){
+        
+                if($fileError === 0){
+                    if($fileSize < 2000000){
+        
+                        $fileDestination = 'images/'.$fileNameNew;
+        
+                        move_uploaded_file($fileTmpName, $fileDestination);
+    
+        
+                    }else if($fileError === 0){
+        
+                        echo "Je bestandstype is te groot. (max. 2MB)";
+        
+                    }else{
+        
+                        echo "Error: Uploaden mislukt.";
+                        echo $fileError;
+        
+                    }
+        
+                }else{
+        
+                    echo "Error: Uploaden mislukt.";
+                    echo $fileError;
+        
+                }
+    
+            }
+    
+            $addWorkshop->saveWorkshop();
+    
+            $message = "Je workshop is toegevoegd!";
+    
+            echo "<script type='text/javascript'>alert('$message');</script>";
+    
+            header("Location: profiel.php");
+
         }
 
-        $addWorkshop->setIdUser($myId);
-        $addWorkshop->setName($_POST['naamWorkshop']);
-        $addWorkshop->setDate($_POST['datumWorkshop']);
-        $addWorkshop->setStart($_POST['startUur']);
-        $addWorkshop->setLocation($_POST['locatieWorkshop']);
-        $addWorkshop->setPrice($prijs);
-        $addWorkshop->setFree($gratis);
-        $addWorkshop->setDescription($_POST['beschrijvingWorkshop']);
-        $addWorkshop->setPicture($_POST['fotoProduct1']);
-
-        $addWorkshop->saveWorkshop();
-
-        $message = "Je workshop is toegevoegd!";
-
-        echo "<script type='text/javascript'>alert('$message');</script>";
-
-        header("Location: profiel.php");
+        
 
 
     } catch (\Throwable $th) {
         $error = $th->getMessage();
+        echo $error;
     }
+}else{
+    // header("Location: login.php");
+
 }
 
 
@@ -74,12 +139,17 @@ if(isset($_POST["btn-workshop-voegtoe"])){
         <p id="titel-pagina">Voeg een workshop toe</p>
     </div>
 
+    <?php if(isset($error)):?>
+    <div class="error" style="color: white;">
+        <?php echo $error;?></div>
+    <?php endif;?>
+
     <main>
         <!-- <div id="workshop-succes" class="succes-msg" style="display:none;">
             <p>Je workshop is toegevoegd!</p>
         </div> -->
 
-        <form action="" method="post" id="form-product">
+        <form action="" method="post" id="form-product" enctype="multipart/form-data">
 
             <div class="input-wrapper">
                 <label for="naamWorkshop" class="input-title">Titel</label>
@@ -104,8 +174,8 @@ if(isset($_POST["btn-workshop-voegtoe"])){
             </div>
 
             <div class="input-wrapper">
-                <label for="prijsWorkshop" class="input-title">Prijs</label>
-                <div id="currency-flex">
+                <label for="prijsWorkshop" class="input-title">Prijs (per persoon)</label>
+                <div id="currency-flex">€
                     <input type="number" name="prijsWorkshop" class="input-text-style input-currency" placeholder="0,00">
 
                     <div class="input-switch-style">

@@ -74,7 +74,37 @@ if(isset($_POST["btn-product-voegtoe"])){
             $addProduct->setOrder($bestelling);
             $addProduct->setUnit($_POST['eenheid']);
             $addProduct->setDescription($_POST['beschrijvingProduct']);
-            $addProduct->setPictures($_POST['fotoProduct1']);
+            $addProduct->setPictures($fileNameNew);
+
+            if(in_array($fileActualExt, $allowed)){
+    
+                if($fileError === 0){
+                    if($fileSize < 2000000){
+        
+                        $fileDestination = 'images/'.$fileNameNew;
+        
+                        move_uploaded_file($fileTmpName, $fileDestination);
+
+        
+                    }else if($fileError === 0){
+        
+                        echo "Je bestandstype is te groot. (max. 2MB)";
+        
+                    }else{
+        
+                        echo "Error: Uploaden mislukt.";
+                        echo $fileError;
+        
+                    }
+        
+                }else{
+        
+                    echo "Error: Uploaden mislukt.";
+                    echo $fileError;
+        
+                }
+    
+            }
     
             $addProduct->saveProduct();
     
@@ -85,36 +115,7 @@ if(isset($_POST["btn-product-voegtoe"])){
             header("Location: profiel.php");
         }
 
-        if(in_array($fileActualExt, $allowed)){
-    
-            if($fileError === 0){
-                if($fileSize < 2000000){
-    
-                    $fileDestination = 'productfoto/'.$fileNameNew;
-    
-                    move_uploaded_file($fileTmpName, $fileDestination);
-    
-                    header("Location: login.php");
-    
-                }else if($fileError === 0){
-    
-                    echo "Je bestandstype is te groot. (max. 2MB)";
-    
-                }else{
-    
-                    echo "Error: Uploaden mislukt.";
-                    echo $fileError;
-    
-                }
-    
-            }else{
-    
-                echo "Error: Uploaden mislukt.";
-                echo $fileError;
-    
-            }
-
-        }
+        
 
     } catch (\Throwable $th) {
         $error = $th->getMessage();
@@ -144,9 +145,9 @@ if(isset($_POST["btn-product-voegtoe"])){
         </div>
         <p id="titel-pagina">Voeg een product toe</p>
     </div>
-    
+
     <?php if(isset($error)):?>
-        <div class="error" style="color: white;">
+    <div class="error" style="color: white;">
         <?php echo $error;?></div>
     <?php endif;?>
 
@@ -155,7 +156,7 @@ if(isset($_POST["btn-product-voegtoe"])){
             <p>Je Product is toegevoegd!</p>
         </div> -->
 
-        <form action="" method="post" id="form-product">
+        <form action="" method="post" id="form-product" enctype="multipart/form-data">
 
             <div class="input-wrapper">
                 <label for="naamProduct" class="input-title">Naam</label>
@@ -174,30 +175,43 @@ if(isset($_POST["btn-product-voegtoe"])){
                 </select>
             </div>
 
-            <div class="input-wrapper">
-                <label for="prijsProduct" class="input-title">Prijs</label>
-                <div id="currency-flex">
-                    <input type="number" name="prijsProduct" class="input-text-style input-currency" placeholder="0,00">
-
-                    <div class="input-switch-style">
-                        <label class="switch">
-                            <input type="hidden" name="gratis" value="0">
-                            <input type="checkbox" name="gratis" id="gratis-toggle">                           
-                            <span class="slider round"></span>
-                        </label>
-                        <label for="gratis" class="input-title input-title-switch">Gratis</label>
+            <div id="prijs-eenheid"  class="input-wrapper">
+                <div>
+                    <label for="prijsProduct" class="input-title">Prijs</label>
+                    <div id="currency-flex">€
+                        <input type="number" name="prijsProduct" class="input-currency" placeholder="0,00">
                     </div>
+                </div>
+                <div id="slash">
+                    <p>/</p>
+                </div>
+                <div>
+                    <label for="eenheid" class="input-title">Eenheid</label>
+                    <select id="eenheid" name="eenheid" class="input-select-style">
+                        <option value="" disabled selected>KG/G/Stuk</option>
+                        <option value="kg">KG</option>
+                        <option value="g">G</option>
+                        <option value="stuks">Stuk</option>
+                    </select>
                 </div>
             </div>
 
             <div class="input-wrapper input-switch-style">
                 <div id="switch-fc">
                     <label class="switch">
+                        <input type="hidden" name="gratis" value="0">
+                        <input type="checkbox" name="gratis" id="gratis-toggle">
+                        <span class="slider round"></span>
+                    </label>
+                    <label for="gratis" class="input-title input-title-switch">Gratis</label>
+                </div>
+                <div id="switch-fc">
+                    <label class="switch">
                         <input type="hidden" name="ruilen" value="0">
                         <input type="checkbox" name="ruilen">
                         <span class="slider round"></span>
                     </label>
-                    <label for="ruilen" class="input-title input-title-switch">Kan geruild worden</label>
+                    <label for="ruilen" class="input-title input-title-switch">Te ruil aanbieden</label>
                 </div>
 
                 <div>
@@ -212,17 +226,7 @@ if(isset($_POST["btn-product-voegtoe"])){
 
             <div class="input-wrapper">
                 <label for="hoeveelheid" class="input-title">Hoeveelheid</label>
-                <input type="nummber" name="hoeveelheid" class="input-text-style" placeholder="Vul een hoeveelheid in">
-            </div>
-
-            <div class="input-wrapper">
-                <label for="eenheid" class="input-title">Eenheid</label>
-                <select id="eenheid" name="eenheid" class="input-select-style">
-                    <option value="" disabled selected>Selecteer een eenheid</option>
-                    <option value="kg">KG</option>
-                    <option value="g">G</option>
-                    <option value="stuks">Stuks</option>
-                </select>
+                <input type="nummber" name="hoeveelheid" class="input-text-style" placeholder="hoeveel KG, gram of stuks ?">
             </div>
 
             <div class="input-wrapper">
@@ -239,25 +243,29 @@ if(isset($_POST["btn-product-voegtoe"])){
                         <i class="fa fa-cloud-upload"></i>
                         <img src="#" alt="" id="img-preview1">
                     </label>
-                    <input type="file" name="fotoProduct1" class="input-file-style inputfile" id="file-input1" onchange="loadFile1(event)">
+                    <input type="file" name="fotoProduct1" class="input-file-style inputfile" id="file-input1"
+                        onchange="loadFile1(event)">
 
                     <label for="fotoProduc2" class="custom-file-upload" id="upload-file2">
                         <i class="fa fa-cloud-upload"></i>
                         <img src="#" alt="" id="img-preview2">
                     </label>
-                    <input type="file" name="fotoProduct2" class="input-file-style inputfile" id="file-input2" onchange="loadFile2(event)">
+                    <input type="file" name="fotoProduct2" class="input-file-style inputfile" id="file-input2"
+                        onchange="loadFile2(event)">
 
                     <label for="fotoProduct3" class="custom-file-upload" id="upload-file3">
                         <i class="fa fa-cloud-upload"></i>
                         <img src="#" alt="" id="img-preview3">
                     </label>
-                    <input type="file" name="fotoProduct3" class="input-file-style inputfile" id="file-input3" onchange="loadFile3(event)">
+                    <input type="file" name="fotoProduct3" class="input-file-style inputfile" id="file-input3"
+                        onchange="loadFile3(event)">
 
                     <label for="fotoProduct4" class="custom-file-upload" id="upload-file4">
                         <i class="fa fa-cloud-upload"></i>
                         <img src="#" alt="" id="img-preview4">
                     </label>
-                    <input type="file" name="fotoProduct4" class="input-file-style inputfile" id="file-input4" onchange="loadFile4(event)">
+                    <input type="file" name="fotoProduct4" class="input-file-style inputfile" id="file-input4"
+                        onchange="loadFile4(event)">
                 </div>
             </div>
 

@@ -72,7 +72,7 @@ if(isset($_POST['vervolledig-submit'])){
 
                 move_uploaded_file($fileTmpName, $fileDestination);
 
-                header("Location: login.php");
+                header("Location: tutorial.php");
 
             }else if($fileError === 0){
 

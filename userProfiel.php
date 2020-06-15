@@ -1,6 +1,7 @@
 <?php 
 include_once(__DIR__."/includes/header.inc.php");
 include_once(__DIR__."/classes/c.product.php");
+include_once(__DIR__."/classes/c.volgers.php");
 include_once(__DIR__."/classes/c.workshop.php");
 include_once(__DIR__."/classes/c.user.php");
 
@@ -8,6 +9,10 @@ $uId = intval($_GET['Uid']);
 
 $fetchUser = new User();
 $fetchUser->setUId($uId);
+
+$fetchUser->setEmail($_SESSION['email']);
+$myId = $fetchUser->fetchMyId();
+$myId = implode(" ", $myId);
 
 $userProfile = $fetchUser->getUser();
 
@@ -23,6 +28,14 @@ $userProducts = $fetchUserProducts->fetchUserProducts();
 $fetchUserWorkshops = new Workshop();
 $fetchUserWorkshops->setIdUser($uId);
 $userWorkshops = $fetchUserWorkshops->fetchUserProducts();
+
+if(isset($_POST['btnVolg'])){
+    $follow = new Volg();
+    $follow->setIdVolger($myId);
+    $follow->setIdGevolgd($uId);
+    $follow->volg();
+}
+
 
 ?>
 
@@ -56,7 +69,11 @@ $userWorkshops = $fetchUserWorkshops->fetchUserProducts();
                 <p id="functie">Koper & tuinier</p>
                 <p id="email"><?php echo $userEmail ?></p>
             </div>
-
+            <div id="volg-btn">
+                <form action="" method="post">
+                <a href="chatbox.php?uid=<?php echo $uId ?>">Chat</a>
+                </form>
+            </div>
         </div>
 
         <h2 id="producten-title">Producten van <?php echo $userFirstname?></h2>
@@ -66,18 +83,21 @@ $userWorkshops = $fetchUserWorkshops->fetchUserProducts();
 
             $keys = array_keys($userProducts);
 
+
             for($i = 0; $i < count($userProducts); $i++) {
             ?> 
-
             <div class="product">
+            
             <?php
 
                     foreach($userProducts[$keys[$i]] as $key => $value) {
                         switch($key){
                             case "naam": ?> 
+                                <a href="product.php?id=<?php echo $userProducts[$i]['id']; ?>" id="product">
                                 <h3 class="naam-product">
                                     <?php echo  $value ?>
-                                </h3> <?php ;
+                                </h3> 
+                                </a><?php ;
                                 break;
                             case "prijs": ?>
                                 <p class="prijs-product"> &euro; 
@@ -94,11 +114,13 @@ $userWorkshops = $fetchUserWorkshops->fetchUserProducts();
                                 <img class="foto-product" src="images/<?php echo $value ?>"> 
                                 </div> <?php ;
                                 break;
+
                         }
                     }
 
                 ?> 
             </div>
+
         <?php
             }
         ?>
@@ -148,6 +170,8 @@ $userWorkshops = $fetchUserWorkshops->fetchUserProducts();
             }
             ?>
         </div>
+
+
 
 
     </main>

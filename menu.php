@@ -31,7 +31,7 @@ include_once(__DIR__."/includes/menu.inc.php");
                 <a href="index.php">Producten ontdekken</a>
                 <a href="profiel.php">Mijn profiel</a>
                 <a href="berichten.php">Berichten</a>
-                <a href="vrienden.php">Vrienden</a>
+                <a href="volgers.php">Volgers</a>
                 <a href="instellingen.php">Instellingen</a>
             </nav>
             <div id="logout">
